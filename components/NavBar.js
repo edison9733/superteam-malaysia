@@ -38,7 +38,7 @@ export default function NavBar() {
     }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #9945FF, #14F195)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>⚡</div>
+          <img src="/logo.png" alt="Superteam Malaysia" style={{ width: 36, height: 36, borderRadius: 10, objectFit: 'contain' }} />
           <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: -0.5, color: '#fff' }}>Superteam<span style={{ color: '#14F195' }}> MY</span></span>
         </Link>
         {/* Desktop */}

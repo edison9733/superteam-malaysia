@@ -10,7 +10,7 @@ export default function Footer({ twitterUrl, telegramUrl, discordUrl }) {
           {/* Brand */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-              <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg, #9945FF, #14F195)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>⚡</div>
+              <img src="/logo.png" alt="Superteam Malaysia" style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'contain' }} />
               <span style={{ fontSize: 15, fontWeight: 800, color: '#fff' }}>Superteam<span style={{ color: '#14F195' }}> MY</span></span>
             </div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', lineHeight: 1.6, maxWidth: 280 }}>
