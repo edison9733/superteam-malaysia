@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
 
@@ -26,7 +28,7 @@ export default function Hero({ title, subtitle, telegramUrl }) {
           {subtitle || "The home for builders, creators, and innovators in Malaysia's Solana ecosystem."}
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transition: 'all 1s cubic-bezier(0.16,1,0.3,1) 0.4s' }}>
-          <a href={telegramUrl || "https://t.me/SuperteamMY"} target="_blank" rel="noopener noreferrer" style={{ padding: '14px 32px', borderRadius: 100, fontSize: 15, fontWeight: 700, textDecoration: 'none', background: 'linear-gradient(135deg, #9945FF, #14F195)', color: '#fff', boxShadow: '0 4px 20px rgba(153,69,255,0.3)' }}>Join Community →</a>
+          <a href={telegramUrl || "https://linktr.ee/SuperteamMY"} target="_blank" rel="noopener noreferrer" style={{ padding: '14px 32px', borderRadius: 100, fontSize: 15, fontWeight: 700, textDecoration: 'none', background: 'linear-gradient(135deg, #9945FF, #14F195)', color: '#fff', boxShadow: '0 4px 20px rgba(153,69,255,0.3)' }}>Join Community →</a>
           <a href="https://superteam.fun" target="_blank" rel="noopener noreferrer" style={{ padding: '14px 32px', borderRadius: 100, fontSize: 15, fontWeight: 700, textDecoration: 'none', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.12)' }}>Explore Opportunities</a>
         </div>
       </div>

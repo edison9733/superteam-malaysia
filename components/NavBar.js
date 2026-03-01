@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -45,7 +47,7 @@ export default function NavBar() {
             <span key={id} onClick={() => scrollTo(id)} style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'color 0.2s' }}>{label}</span>
           ))}
           <Link href="/members" style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>Directory</Link>
-          <a href="https://t.me/SuperteamMY" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 20px', borderRadius: 100, fontSize: 13, fontWeight: 700, textDecoration: 'none', background: 'linear-gradient(135deg, #9945FF, #14F195)', color: '#fff' }}>Join Community</a>
+          <a href="https://linktr.ee/SuperteamMY" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 20px', borderRadius: 100, fontSize: 13, fontWeight: 700, textDecoration: 'none', background: 'linear-gradient(135deg, #9945FF, #14F195)', color: '#fff' }}>Join Community</a>
         </div>
         {/* Mobile */}
         <button className="mobile-only" onClick={() => setMenuOpen(!menuOpen)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer', padding: 4 }}>{menuOpen ? '✕' : '☰'}</button>

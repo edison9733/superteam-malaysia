@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 import Link from 'next/link';
 
 export default function Footer({ twitterUrl, telegramUrl, discordUrl }) {
@@ -35,8 +37,8 @@ export default function Footer({ twitterUrl, telegramUrl, discordUrl }) {
           <div>
             <h4 style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 16 }}>Community</h4>
             {[
-              ['Telegram', telegramUrl || 'https://t.me/SuperteamMY'],
-              ['Discord', discordUrl || 'https://discord.gg/superteammy'],
+              ['Community', telegramUrl || 'https://linktr.ee/SuperteamMY'],
+              ['Discord', discordUrl || 'https://discord.gg/rrUMX92p'],
               ['Twitter / X', twitterUrl || 'https://x.com/SuperteamMY'],
               ['Superteam Earn', 'https://superteam.fun'],
             ].map(([l, u]) => (
@@ -60,11 +62,12 @@ export default function Footer({ twitterUrl, telegramUrl, discordUrl }) {
         {/* Bottom bar */}
         <div style={{ paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>© 2026 Superteam Malaysia. Part of the Superteam network.</span>
+          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', marginTop: 4, display: 'block' }}>Designed & Built by edison9733 for Superteam Earn Bounty</span>
           <div style={{ display: 'flex', gap: 16 }}>
             {[
               ['𝕏', twitterUrl || 'https://x.com/SuperteamMY'],
-              ['✈', telegramUrl || 'https://t.me/SuperteamMY'],
-              ['💬', discordUrl || 'https://discord.gg/superteammy'],
+              ['🔗', telegramUrl || 'https://linktr.ee/SuperteamMY'],
+              ['💬', discordUrl || 'https://discord.gg/rrUMX92p'],
             ].map(([icon, url]) => (
               <a key={url} href={url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 16, color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>{icon}</a>
             ))}

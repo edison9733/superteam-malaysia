@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 // app/api/admin/upload/route.js
 // Media upload handler — uploads files to Supabase Storage
 

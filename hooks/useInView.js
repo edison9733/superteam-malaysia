@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useRef, useState, useEffect } from 'react';
 

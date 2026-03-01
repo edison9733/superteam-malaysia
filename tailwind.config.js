@@ -1,3 +1,4 @@
+// © 2026 edison9733. All rights reserved.
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

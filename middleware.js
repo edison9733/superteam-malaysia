@@ -1,3 +1,4 @@
+// © 2026 edison9733. All rights reserved.
 // middleware.js
 // Protects /admin routes — redirects unauthenticated users to /admin/login
 

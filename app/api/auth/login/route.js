@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 // app/api/auth/login/route.js
 // Admin login via Supabase Auth (email + password)
 

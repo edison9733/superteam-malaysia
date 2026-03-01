@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
 import { useState } from 'react';
@@ -55,7 +57,7 @@ export default function Events({ events = [], lumaUrl }) {
 
         {/* Luma CTA */}
         <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <a href={lumaUrl || 'https://lu.ma/superteammy'} target="_blank" rel="noopener noreferrer" style={{
+          <a href={lumaUrl || 'https://lu.ma/mysuperteam'} target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 100,
             background: 'rgba(3,225,255,0.08)', border: '1px solid rgba(3,225,255,0.2)', color: '#03E1FF',
             fontSize: 14, fontWeight: 700, textDecoration: 'none',

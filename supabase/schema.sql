@@ -1,3 +1,4 @@
+-- © 2026 edison9733. All rights reserved. Unauthorized copying prohibited.
 -- ============================================================
 -- Superteam Malaysia — Complete Supabase CMS Schema
 -- Run this in your Supabase SQL Editor to set up the database

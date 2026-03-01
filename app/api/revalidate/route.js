@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 // app/api/revalidate/route.js
 // On-demand ISR revalidation
 // POST /api/revalidate?secret=xxx&path=/

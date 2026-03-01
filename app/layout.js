@@ -1,3 +1,6 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Built for Superteam Earn Bounty
+// Unauthorized copying or redistribution of this code is prohibited.
 import '../styles/globals.css';
 
 export const metadata = {

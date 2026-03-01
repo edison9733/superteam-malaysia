@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 // app/api/events/route.js
 // Fetches events from Luma API with Supabase fallback
 // GET /api/events?status=upcoming

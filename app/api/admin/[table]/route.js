@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 // app/api/admin/[table]/route.js
 // Generic CRUD API for all CMS tables
 // Handles: GET (list), POST (create), PUT (update), DELETE (remove)

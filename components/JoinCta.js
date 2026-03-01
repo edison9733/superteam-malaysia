@@ -1,3 +1,5 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
 import { useState } from 'react';
@@ -7,8 +9,8 @@ export default function JoinCta({ title, subtitle, telegramUrl, discordUrl, twit
   const [email, setEmail] = useState('');
 
   const socials = [
-    { name: 'Telegram', url: telegramUrl || 'https://t.me/SuperteamMY', color: '#0088cc', icon: '✈' },
-    { name: 'Discord', url: discordUrl || 'https://discord.gg/superteammy', color: '#5865F2', icon: '💬' },
+    { name: 'Community', url: telegramUrl || 'https://linktr.ee/SuperteamMY', color: '#0088cc', icon: '🔗' },
+    { name: 'Discord', url: discordUrl || 'https://discord.gg/rrUMX92p', color: '#5865F2', icon: '💬' },
     { name: 'Twitter / X', url: twitterUrl || 'https://x.com/SuperteamMY', color: '#fff', icon: '𝕏' },
   ];
 

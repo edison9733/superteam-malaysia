@@ -1,3 +1,6 @@
+// © 2026 edison9733. All rights reserved.
+// Superteam Malaysia Official Website — Built for Superteam Earn Bounty
+// Unauthorized copying or redistribution of this code is prohibited.
 // app/page.js
 // Landing Page — all content from Supabase CMS (falls back to sample data)
 // Uses ISR with 60s revalidation — CMS edits go live within ~1 minute
@@ -74,7 +77,7 @@ export default async function HomePage() {
       {/* Section 4: Events (Luma Integration) */}
       <Events
         events={events}
-        lumaUrl={content.luma_url || 'https://lu.ma/superteammy'}
+        lumaUrl={content.luma_url || 'https://lu.ma/mysuperteam'}
       />
 
       {/* Section 5: Members Spotlight */}
