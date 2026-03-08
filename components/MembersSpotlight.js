@@ -1,8 +1,7 @@
 // © 2026 edison9733. All rights reserved.
-// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 const BADGE_COLORS = {
@@ -13,130 +12,171 @@ const BADGE_COLORS = {
   'Bounty Hunter': '#FF6B6B',
 };
 
-export default function MembersSpotlight({ members = [] }) {
-  const [ref, inView] = useInView();
-  const [flipped, setFlipped] = useState(null);
-  const featured = members.filter(m => m.featured);
+function MemberCard({ m, isActive, onClick }) {
+  const badgeColor = BADGE_COLORS[m.badge] || '#9945FF';
+  const achievements = m.achievements || {};
 
   return (
-    <section id="members-section" ref={ref} style={{ padding: '100px 24px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* Header — UAE style */}
+    <div onClick={onClick} style={{
+      width: 280, height: 380, flexShrink: 0, cursor: 'pointer',
+      borderRadius: 20, overflow: 'hidden', position: 'relative',
+      background: isActive
+        ? 'linear-gradient(135deg, rgba(153,69,255,0.12), rgba(20,241,149,0.06))'
+        : 'rgba(255,255,255,0.02)',
+      border: isActive ? '1px solid rgba(153,69,255,0.25)' : '1px solid rgba(255,255,255,0.06)',
+      transition: 'all 0.5s cubic-bezier(0.16,1,0.3,1)',
+      transform: isActive ? 'scale(1.05)' : 'scale(0.95)',
+      opacity: isActive ? 1 : 0.6,
+    }}>
+      {/* Profile photo area */}
+      <div style={{
+        height: 160, overflow: 'hidden', position: 'relative',
+        background: `linear-gradient(135deg, ${badgeColor}20, rgba(8,8,14,0.8))`,
+      }}>
+        <img
+          src={`/members/${m.twitter}.jpg`}
+          alt={m.name}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
+          onError={(e) => {
+            e.target.style.display = 'none';
+          }}
+        />
+        {/* Badge */}
+        {m.badge && (
+          <span style={{
+            position: 'absolute', top: 12, right: 12,
+            padding: '4px 10px', borderRadius: 100, fontSize: 10, fontWeight: 700,
+            background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)',
+            color: badgeColor, border: `1px solid ${badgeColor}40`,
+          }}>{m.badge}</span>
+        )}
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: '16px 20px' }}>
+        <h3 style={{ fontSize: 17, fontWeight: 700, color: '#fff', margin: '0 0 2px' }}>{m.name}</h3>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 10px' }}>
+          {m.role} · {m.company}
+        </p>
+
+        {/* Skills */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
+          {m.skills?.slice(0, 3).map((s) => (
+            <span key={s} style={{
+              padding: '3px 8px', borderRadius: 100, fontSize: 10, fontWeight: 600,
+              background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)',
+            }}>{s}</span>
+          ))}
+        </div>
+
+        {/* Stats row */}
+        <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>
+          <span><strong style={{ color: '#fff', fontSize: 14 }}>{achievements.hackathon_wins || 0}</strong> wins</span>
+          <span><strong style={{ color: '#fff', fontSize: 14 }}>{achievements.projects_built || 0}</strong> projects</span>
+          <span><strong style={{ color: '#fff', fontSize: 14 }}>{achievements.bounties_completed || 0}</strong> bounties</span>
+        </div>
+
+        {/* Twitter */}
+        {m.twitter && (
+          <a href={`https://x.com/${m.twitter}`} target="_blank" rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            style={{ display: 'block', marginTop: 10, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>
+            𝕏 @{m.twitter}
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function MembersSpotlight({ members = [] }) {
+  const [ref, inView] = useInView();
+  const featured = members.filter(m => m.featured);
+  const displayMembers = featured.length > 0 ? featured : members.slice(0, 8);
+  const [active, setActive] = useState(0);
+  const scrollRef = useRef(null);
+
+  // Auto-rotate
+  useEffect(() => {
+    if (!inView) return;
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % displayMembers.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [inView, displayMembers.length]);
+
+  // Scroll active card into view
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    const card = scrollRef.current.children[active];
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [active]);
+
+  return (
+    <section id="members-section" ref={ref} style={{ padding: '100px 0', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
         <div style={{
-          textAlign: 'center', marginBottom: 56,
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
+          textAlign: 'center', marginBottom: 48,
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.8s',
         }}>
           <h2 style={{
-            fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 800, lineHeight: 1.15,
-            margin: '0 0 16px', color: '#fff',
+            fontSize: 'clamp(26px, 4.5vw, 48px)', fontWeight: 800, lineHeight: 1.15,
+            margin: '0 0 12px', color: '#fff', letterSpacing: '-0.02em',
           }}>
             Our Members Are{' '}
-            <span className="gradient-text" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>
+            <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', color: '#14F195' }}>
               Industry Leaders
             </span>
-            , Top-Tier Founders
-            <br />and Influential Creators.
+            ,<br />Top-Tier Founders and Influential Creators.
           </h2>
         </div>
+      </div>
 
-        {/* Member grid with profile photos */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: 16 }}>
-          {(featured.length > 0 ? featured : members.slice(0, 8)).map((m, i) => {
-            const isFlipped = flipped === m.id;
-            const badgeColor = BADGE_COLORS[m.badge] || '#9945FF';
-            const achievements = m.achievements || {};
+      {/* Horizontal scrolling carousel */}
+      <div
+        ref={scrollRef}
+        style={{
+          display: 'flex', gap: 16, padding: '20px 24px',
+          overflowX: 'auto', scrollSnapType: 'x mandatory',
+          scrollbarWidth: 'none', msOverflowStyle: 'none',
+          justifyContent: displayMembers.length <= 4 ? 'center' : 'flex-start',
+        }}
+      >
+        {/* Spacer for centering */}
+        <div style={{ minWidth: 'calc(50vw - 156px)', flexShrink: 0 }} />
+        {displayMembers.map((m, i) => (
+          <div key={m.id} style={{ scrollSnapAlign: 'center' }}>
+            <MemberCard m={m} isActive={i === active} onClick={() => setActive(i)} />
+          </div>
+        ))}
+        <div style={{ minWidth: 'calc(50vw - 156px)', flexShrink: 0 }} />
+      </div>
 
-            return (
-              <div key={m.id} onClick={() => setFlipped(isFlipped ? null : m.id)}
-                style={{
-                  perspective: '1000px', cursor: 'pointer', height: 340,
-                  opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
-                  transition: `opacity 0.8s ${i * 0.08}s, transform 0.8s ${i * 0.08}s`,
-                }}>
-                <div style={{
-                  position: 'relative', width: '100%', height: '100%',
-                  transformStyle: 'preserve-3d', transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0)',
-                }}>
-                  {/* Front */}
-                  <div style={{
-                    position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
-                    borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column',
-                    background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-                      {/* Profile photo or initial */}
-                      <div style={{
-                        width: 56, height: 56, borderRadius: 16, overflow: 'hidden',
-                        background: `linear-gradient(135deg, ${badgeColor}33, rgba(255,255,255,0.05))`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <img
-                          src={`/members/${m.twitter}.jpg`}
-                          alt={m.name}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.parentElement.innerHTML = `<span style="font-size:24px;font-weight:800;color:${badgeColor}">${m.name?.charAt(0)}</span>`;
-                          }}
-                        />
-                      </div>
-                      {m.badge && <span style={{ padding: '4px 10px', borderRadius: 100, fontSize: 10, fontWeight: 700, background: badgeColor + '15', color: badgeColor, alignSelf: 'flex-start' }}>{m.badge}</span>}
-                    </div>
-                    <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', margin: '0 0 4px' }}>{m.name}</h3>
-                    <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 4px' }}>{m.role}</p>
-                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: '0 0 16px' }}>@ {m.company}</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
-                      {m.skills?.map((s) => <span key={s} style={{ padding: '4px 10px', borderRadius: 100, fontSize: 11, fontWeight: 600, background: 'rgba(153,69,255,0.1)', color: '#9945FF' }}>{s}</span>)}
-                    </div>
-                    <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>
-                      <span>↻ Click to flip</span>
-                      {m.twitter && (
-                        <a href={`https://x.com/${m.twitter}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ marginLeft: 'auto', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: 12 }}>
-                          @{m.twitter}
-                        </a>
-                      )}
-                    </div>
-                  </div>
+      {/* Dot indicators */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 24 }}>
+        {displayMembers.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            style={{
+              width: i === active ? 24 : 6, height: 6, borderRadius: 3,
+              background: i === active ? '#14F195' : 'rgba(255,255,255,0.15)',
+              border: 'none', cursor: 'pointer', transition: 'all 0.3s',
+              padding: 0,
+            }}
+          />
+        ))}
+      </div>
 
-                  {/* Back — Achievements */}
-                  <div style={{
-                    position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg)', borderRadius: 16, padding: 24,
-                    background: `linear-gradient(135deg, rgba(153,69,255,0.08), rgba(20,241,149,0.05))`,
-                    border: '1px solid rgba(153,69,255,0.2)',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                  }}>
-                    <h4 style={{ fontSize: 14, fontWeight: 700, color: '#14F195', margin: '0 0 12px', letterSpacing: 1, textTransform: 'uppercase' }}>Achievements</h4>
-                    <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', margin: '0 0 20px', lineHeight: 1.6 }}>{m.bio}</p>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                      {[
-                        { label: 'Hackathon Wins', val: achievements.hackathon_wins || achievements.hackathons || 0 },
-                        { label: 'Projects Built', val: achievements.projects_built || achievements.projects || 0 },
-                        { label: 'Grants Received', val: achievements.grants_received || achievements.grants || 0 },
-                        { label: 'Bounties Done', val: achievements.bounties_completed || achievements.bounties || 0 },
-                      ].map((a) => (
-                        <div key={a.label} style={{ textAlign: 'center', padding: '10px 0', borderRadius: 10, background: 'rgba(0,0,0,0.2)' }}>
-                          <div style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>{a.val}</div>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: 0.3 }}>{a.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <Link href="/members" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px',
-            borderRadius: 100, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-            color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none',
-          }}>View All Members →</Link>
-        </div>
+      <div style={{ textAlign: 'center', marginTop: 32, padding: '0 24px' }}>
+        <Link href="/members" style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 28px',
+          borderRadius: 100, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+          color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, textDecoration: 'none',
+        }}>View All Members →</Link>
       </div>
     </section>
   );

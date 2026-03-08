@@ -80,9 +80,8 @@ export default async function HomePage() {
         reach={content.stats_reach}
       />
 
-      {/* Section 4: Events (with Luma Embed) */}
+      {/* Section 4: Events — Luma Calendar Embed */}
       <Events
-        events={events}
         lumaUrl={content.luma_url || 'https://lu.ma/mysuperteam'}
       />
 

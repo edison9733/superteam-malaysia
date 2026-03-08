@@ -1,4 +1,4 @@
-/* © 2026 edison9733. All rights reserved. Unauthorized copying prohibited. */
+/* © 2026 edison9733. All rights reserved. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,8 +8,6 @@
   --solana-green: #14F195;
   --solana-cyan: #03E1FF;
   --bg: #08080e;
-  --bg-card: #0f0f17;
-  --bg-hover: #161622;
 }
 
 * { box-sizing: border-box; }
@@ -21,19 +19,14 @@ body {
   font-family: 'Outfit', -apple-system, sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection { background: rgba(153, 69, 255, 0.3); }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
 
-/* ── Batik Pattern Background (Malaysian Cultural Element) ── */
-.batik-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='white' stroke-width='0.5'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='white' stroke-width='0.3'/%3E%3Cpath d='M40 20L60 40L40 60L20 40Z' fill='none' stroke='white' stroke-width='0.2'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
-}
+/* Minimal scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 2px; }
 
 /* ── Gradient Text ── */
 .gradient-text {
@@ -47,19 +40,18 @@ body {
 .glass-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-card:hover {
-  border-color: rgba(153, 69, 255, 0.2);
-  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
 }
 
 /* ── Marquee Fade Edges ── */
 .marquee-container {
-  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
 /* ── Photo Marquee ── */
@@ -93,13 +85,13 @@ body {
   to { transform: translateX(-50%); }
 }
 
-/* ── Menu link hover ── */
+/* ── Menu ── */
 .menu-link { transition: color 0.3s !important; }
 .menu-link:hover { color: #14F195 !important; }
 .menu-social { transition: color 0.3s !important; }
 .menu-social:hover { color: #fff !important; }
 
-/* ── Animation Utilities ── */
+/* ── Animations ── */
 @keyframes float1 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(-30px, 20px); }
@@ -107,10 +99,6 @@ body {
 @keyframes float2 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(20px, -30px); }
-}
-@keyframes float3 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-20px, -20px); }
 }
 @keyframes pulse {
   0%, 100% { opacity: 1; }

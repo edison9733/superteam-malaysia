@@ -1,106 +1,60 @@
 // © 2026 edison9733. All rights reserved.
-// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
-import { useState, useEffect } from 'react';
 
-export default function Events({ events = [], lumaUrl }) {
+export default function Events({ lumaUrl }) {
   const [ref, inView] = useInView();
-  const [tab, setTab] = useState('upcoming');
-  const filtered = events.filter((e) => e.status === tab);
-  const calendarSlug = (lumaUrl || 'https://lu.ma/mysuperteam').split('/').pop();
-
-  // Load Luma embed script
-  useEffect(() => {
-    const id = 'luma-embed-script';
-    if (document.getElementById(id)) return;
-    const script = document.createElement('script');
-    script.id = id;
-    script.src = 'https://embed.lu.ma/checkout-button.js';
-    script.async = true;
-    document.head.appendChild(script);
-  }, []);
+  const calendarUrl = lumaUrl || 'https://lu.ma/mysuperteam';
 
   return (
-    <section id="events" ref={ref} style={{ padding: '100px 24px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+    <section id="events" ref={ref} style={{ padding: '80px 24px' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-          flexWrap: 'wrap', gap: 20, marginBottom: 48,
+          textAlign: 'center', marginBottom: 40,
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.8s',
         }}>
-          <div style={{
-            opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'all 0.8s',
+          <h2 style={{
+            fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, color: '#fff',
+            margin: '0 0 12px', letterSpacing: '-0.02em',
           }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#03E1FF', letterSpacing: 2, textTransform: 'uppercase', display: 'block', marginBottom: 16 }}>Events</span>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.1, margin: 0, color: '#fff' }}>
-              Join Us for Our{' '}
-              <span style={{ fontStyle: 'italic', fontFamily: "'Instrument Serif', serif", color: '#14F195' }}>Upcoming Events</span>
-            </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', marginTop: 12, maxWidth: 500 }}>
-              Find your tribe and ignite your passion. Our events are the best place to learn, build, and connect.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {['upcoming', 'past'].map((t) => (
-              <button key={t} onClick={() => setTab(t)} style={{
-                padding: '8px 20px', borderRadius: 100, fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                background: tab === t ? 'rgba(255,255,255,0.1)' : 'transparent',
-                color: tab === t ? '#fff' : 'rgba(255,255,255,0.4)',
-                border: tab === t ? '1px solid rgba(255,255,255,0.15)' : '1px solid transparent',
-                transition: 'all 0.3s', textTransform: 'capitalize', fontFamily: "'Outfit', sans-serif",
-              }}>{t}</button>
-            ))}
-          </div>
+            Join Us for Our{' '}
+            <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', color: '#14F195' }}>
+              Upcoming Events
+            </span>
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 460, margin: '0 auto' }}>
+            Find your tribe and ignite your passion. Scroll through our events below and RSVP directly.
+          </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 16 }}>
-          {filtered.map((e, i) => (
-            <a key={e.id} href={e.luma_url || lumaUrl || '#'} target="_blank" rel="noopener noreferrer" className="glass-card" style={{
-              display: 'block', padding: 24, textDecoration: 'none',
-              opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: `${i * 0.08}s`,
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                <span style={{ padding: '4px 12px', borderRadius: 100, fontSize: 11, fontWeight: 700, background: 'rgba(3,225,255,0.1)', color: '#03E1FF', textTransform: 'capitalize' }}>{e.type}</span>
-                {e.featured && <span style={{ padding: '4px 10px', borderRadius: 100, fontSize: 10, fontWeight: 700, background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>★ Featured</span>}
-              </div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>{e.title}</h3>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 12px', lineHeight: 1.6 }}>{e.description}</p>
-              <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
-                <span>📅 {e.date}</span><span>🕐 {e.time}</span>
-              </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 6 }}>📍 {e.location}</div>
-            </a>
-          ))}
-        </div>
-
-        {/* ═══ Embedded Luma Calendar ═══
-             This uses a direct iframe to your Luma calendar page.
-             The URL format is: https://lu.ma/mysuperteam?lt=interstitial
-             This shows the full calendar with all upcoming events. */}
+        {/* ═══ Luma Calendar Embed ═══
+             Scrollable Luma calendar embedded directly in the page.
+             Users can browse events, see details, and RSVP without leaving your site. */}
         <div style={{
-          marginTop: 48, borderRadius: 20, overflow: 'hidden',
+          borderRadius: 16, overflow: 'hidden',
           border: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(0,0,0,0.2)',
+          background: '#0a0a12',
+          opacity: inView ? 1 : 0,
+          transition: 'opacity 1s 0.2s',
         }}>
           <iframe
-            src={`https://lu.ma/${calendarSlug}`}
+            src={calendarUrl}
             style={{
-              width: '100%', height: 600, border: 'none',
-              borderRadius: 20, colorScheme: 'dark',
+              width: '100%', height: 650, border: 'none',
+              borderRadius: 16, colorScheme: 'dark',
             }}
             allowFullScreen
-            aria-label="Superteam Malaysia Luma Calendar"
+            aria-label="Superteam Malaysia Events on Luma"
           />
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <a href={lumaUrl || 'https://lu.ma/mysuperteam'} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 100,
-            background: 'rgba(3,225,255,0.08)', border: '1px solid rgba(3,225,255,0.2)', color: '#03E1FF',
-            fontSize: 14, fontWeight: 700, textDecoration: 'none',
-          }}>View All Events on Luma ↗</a>
+          <a href={calendarUrl} target="_blank" rel="noopener noreferrer" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 100,
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+            color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, textDecoration: 'none',
+          }}>View Full Calendar on Luma ↗</a>
         </div>
       </div>
     </section>

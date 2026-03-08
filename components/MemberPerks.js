@@ -1,15 +1,36 @@
 // © 2026 edison9733. All rights reserved.
-// Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
 
 const PERKS = [
-  { icon: '🛠️', title: 'Builder Support & Mentorship', desc: '1-on-1 mentoring from experienced Solana developers and founders to help you ship.' },
-  { icon: '💰', title: 'Grants & Funding Access', desc: 'Direct access to Solana Foundation grants, ecosystem funding, and investor introductions.' },
-  { icon: '🎯', title: 'Jobs, Bounties & Gigs', desc: 'Get paid to build. Bounties, freelance gigs, and full-time positions in the Solana ecosystem.' },
-  { icon: '🎪', title: 'Events & Hackathons', desc: 'Monthly meetups, hackathons, and demo days. The best place to learn and build together.' },
-  { icon: '📚', title: 'Education & Workshops', desc: 'From Rust to Anchor to DeFi — hands-on workshops to level up your Web3 skills.' },
-  { icon: '🌏', title: 'Global Network', desc: 'Access to the Superteam network spanning 15+ countries. Build local, connect global.' },
+  {
+    title: 'For Builders',
+    desc: 'Kickstart your Solana journey with mentorship, grants up to $10K, and direct access to the Solana Foundation.',
+    items: ['1-on-1 Mentorship', 'Grant Applications', 'Technical Workshops'],
+    gradient: 'linear-gradient(135deg, rgba(153,69,255,0.1), rgba(20,241,149,0.05))',
+    accent: '#9945FF',
+  },
+  {
+    title: 'For Creators',
+    desc: 'Get paid to create. Bounties, content gigs, and design opportunities across the Solana ecosystem.',
+    items: ['Bounties & Gigs', 'Content Creation', 'Design Challenges'],
+    gradient: 'linear-gradient(135deg, rgba(20,241,149,0.1), rgba(3,225,255,0.05))',
+    accent: '#14F195',
+  },
+  {
+    title: 'For Founders',
+    desc: 'From fundraising support to hiring talent, we help you build and scale your Solana startup in Malaysia.',
+    items: ['Fundraising Support', 'Talent Acquisition', 'Investor Network'],
+    gradient: 'linear-gradient(135deg, rgba(3,225,255,0.1), rgba(153,69,255,0.05))',
+    accent: '#03E1FF',
+  },
+  {
+    title: 'For Everyone',
+    desc: 'Access the global Superteam network spanning 15+ countries. Events, hackathons, and community every week.',
+    items: ['Global Network', 'Weekly Events', 'Hackathons'],
+    gradient: 'linear-gradient(135deg, rgba(255,215,0,0.08), rgba(153,69,255,0.05))',
+    accent: '#FFD700',
+  },
 ];
 
 export default function MemberPerks() {
@@ -17,40 +38,51 @@ export default function MemberPerks() {
 
   return (
     <section id="perks" ref={ref} style={{ padding: '100px 24px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <div style={{
           textAlign: 'center', marginBottom: 56,
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.8s',
         }}>
-          <span style={{ fontSize: 12, fontWeight: 700, color: '#FFD700', letterSpacing: 2, textTransform: 'uppercase', display: 'block', marginBottom: 16 }}>Member Perks</span>
           <h2 style={{
             fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, color: '#fff',
-            margin: '0 0 16px', lineHeight: 1.15,
+            margin: '0 0 12px', letterSpacing: '-0.02em',
           }}>
-            We Help You Achieve Your Goals<br />
-            <span className="gradient-text" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>
-              in the Solana Ecosystem
+            We Help You Achieve Your Goals{' '}
+            <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', color: '#14F195' }}>
+              in the Solana Ecosystem.
             </span>
           </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 440, margin: '0 auto' }}>
+            Our team is ready to help founders, builders, and creators succeed.
+          </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16 }}>
+        {/* 2×2 grid — clean, minimalist cards like UAE */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 12 }}>
           {PERKS.map((p, i) => (
-            <div key={p.title} className="glass-card" style={{
-              padding: 28,
-              opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
-              transitionDelay: `${i * 0.08}s`,
+            <div key={p.title} style={{
+              padding: 32, borderRadius: 16,
+              background: p.gradient,
+              border: '1px solid rgba(255,255,255,0.06)',
+              opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
+              transition: `all 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s`,
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-                <span style={{
-                  width: 48, height: 48, borderRadius: 14,
-                  background: 'rgba(153,69,255,0.1)', border: '1px solid rgba(153,69,255,0.15)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24,
-                }}>{p.icon}</span>
-                <h3 style={{ fontSize: 17, fontWeight: 700, color: '#fff', margin: 0 }}>{p.title}</h3>
+              <h3 style={{
+                fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 10px',
+              }}>{p.title}</h3>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6, margin: '0 0 20px' }}>
+                {p.desc}
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {p.items.map((item) => (
+                  <span key={item} style={{
+                    padding: '6px 14px', borderRadius: 100, fontSize: 12, fontWeight: 600,
+                    background: `${p.accent}10`, color: p.accent,
+                    border: `1px solid ${p.accent}20`,
+                  }}>{item}</span>
+                ))}
               </div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
             </div>
           ))}
         </div>
