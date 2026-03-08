@@ -13,7 +13,7 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          // X-Frame-Options removed to allow Luma iframe embed
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         ],

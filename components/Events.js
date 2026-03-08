@@ -2,12 +2,24 @@
 // Superteam Malaysia Official Website — Unauthorized copying prohibited.
 'use client';
 import { useInView } from '@/hooks/useInView';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Events({ events = [], lumaUrl }) {
   const [ref, inView] = useInView();
   const [tab, setTab] = useState('upcoming');
   const filtered = events.filter((e) => e.status === tab);
+  const calendarSlug = (lumaUrl || 'https://lu.ma/mysuperteam').split('/').pop();
+
+  // Load Luma embed script
+  useEffect(() => {
+    const id = 'luma-embed-script';
+    if (document.getElementById(id)) return;
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = 'https://embed.lu.ma/checkout-button.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
 
   return (
     <section id="events" ref={ref} style={{ padding: '100px 24px' }}>
@@ -63,13 +75,23 @@ export default function Events({ events = [], lumaUrl }) {
           ))}
         </div>
 
-        {/* Embedded Luma Calendar */}
-        <div style={{ marginTop: 48, borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
+        {/* ═══ Embedded Luma Calendar ═══
+             This uses a direct iframe to your Luma calendar page.
+             The URL format is: https://lu.ma/mysuperteam?lt=interstitial
+             This shows the full calendar with all upcoming events. */}
+        <div style={{
+          marginTop: 48, borderRadius: 20, overflow: 'hidden',
+          border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(0,0,0,0.2)',
+        }}>
           <iframe
-            src={`https://lu.ma/embed/calendar/cal-${(lumaUrl || 'https://lu.ma/mysuperteam').split('/').pop()}/events`}
-            style={{ width: '100%', height: 450, border: 'none', background: 'rgba(0,0,0,0.3)', borderRadius: 20 }}
+            src={`https://lu.ma/${calendarSlug}`}
+            style={{
+              width: '100%', height: 600, border: 'none',
+              borderRadius: 20, colorScheme: 'dark',
+            }}
             allowFullScreen
-            aria-label="Luma Calendar"
+            aria-label="Superteam Malaysia Luma Calendar"
           />
         </div>
 

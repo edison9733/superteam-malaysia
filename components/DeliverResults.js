@@ -4,6 +4,10 @@
 import { useInView } from '@/hooks/useInView';
 import { useRef, useState } from 'react';
 
+// ═══ EDIT THIS ARRAY to change the "We Deliver Results" cards ═══
+// - video: path to a short clip in /public/videos/ (plays on hover)
+// - poster: fallback image shown before hover
+// - link: URL that opens when you CLICK the card (e.g. a Twitter/X video post)
 const RESULTS = [
   {
     title: 'Hackathon Highlights',
@@ -11,6 +15,7 @@ const RESULTS = [
     desc: 'World-class hackathons bringing the best Solana builders together.',
     video: '/videos/hackathon.mp4',
     poster: '/gallery/event-1.jpg',
+    link: 'https://x.com/SuperteamMY/status/2017135281745322427',
     gradient: 'linear-gradient(135deg, #9945FF33, #14F19522)',
   },
   {
@@ -19,6 +24,7 @@ const RESULTS = [
     desc: 'Monthly meetups, workshops, and demo days for the Malaysian Solana community.',
     video: '/videos/events.mp4',
     poster: '/gallery/event-2.jpg',
+    link: 'https://x.com/SuperteamMY',
     gradient: 'linear-gradient(135deg, #14F19533, #03E1FF22)',
   },
   {
@@ -27,6 +33,7 @@ const RESULTS = [
     desc: 'Helping Malaysian builders access Solana Foundation grants and ecosystem funding.',
     video: '/videos/builders.mp4',
     poster: '/gallery/event-3.jpg',
+    link: 'https://x.com/SuperteamMY',
     gradient: 'linear-gradient(135deg, #03E1FF33, #9945FF22)',
   },
 ];
@@ -48,10 +55,17 @@ function ResultCard({ item, index, inView }) {
     }
   };
 
+  const handleClick = () => {
+    if (item.link) {
+      window.open(item.link, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       style={{
         position: 'relative', borderRadius: 20, overflow: 'hidden',
         height: 360, cursor: 'pointer',
@@ -63,7 +77,7 @@ function ResultCard({ item, index, inView }) {
         transitionDelay: `${index * 0.12}s`,
       }}
     >
-      {/* Video layer */}
+      {/* Video layer — plays on hover */}
       <video
         ref={videoRef}
         src={item.video}
@@ -78,6 +92,18 @@ function ResultCard({ item, index, inView }) {
         }}
       />
 
+      {/* Poster image fallback (shows when no video or not hovered) */}
+      <img
+        src={item.poster}
+        alt={item.title}
+        style={{
+          position: 'absolute', inset: 0, width: '100%', height: '100%',
+          objectFit: 'cover', opacity: hovered ? 0 : 0.25,
+          transition: 'opacity 0.5s',
+        }}
+        onError={(e) => { e.target.style.display = 'none'; }}
+      />
+
       {/* Gradient overlay */}
       <div style={{
         position: 'absolute', inset: 0,
@@ -85,9 +111,7 @@ function ResultCard({ item, index, inView }) {
       }} />
 
       {/* Content */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28,
-      }}>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
         <div style={{
           fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase',
           color: '#14F195', marginBottom: 8,
@@ -96,15 +120,19 @@ function ResultCard({ item, index, inView }) {
         <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>{item.desc}</p>
       </div>
 
-      {/* Play indicator */}
+      {/* Play + link indicator */}
       <div style={{
         position: 'absolute', top: 20, right: 20,
-        width: 40, height: 40, borderRadius: '50%',
-        background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 14, color: '#fff',
-        opacity: hovered ? 1 : 0.5, transition: 'opacity 0.3s',
-      }}>▶</div>
+        display: 'flex', gap: 8,
+      }}>
+        <div style={{
+          width: 40, height: 40, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 14, color: '#fff',
+          opacity: hovered ? 1 : 0.5, transition: 'opacity 0.3s',
+        }}>{hovered ? '↗' : '▶'}</div>
+      </div>
     </div>
   );
 }
@@ -127,7 +155,7 @@ export default function DeliverResults() {
             We Deliver <span className="gradient-text" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>Results</span>.
           </h2>
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.45)', maxWidth: 500, margin: '0 auto' }}>
-            Hover over the cards to see our community in action.
+            Hover to preview, click to see the full story on 𝕏.
           </p>
         </div>
 
