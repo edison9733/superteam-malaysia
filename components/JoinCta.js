@@ -9,9 +9,9 @@ export default function JoinCta({ title, subtitle, telegramUrl, discordUrl, twit
   const [email, setEmail] = useState('');
 
   const socials = [
-    { name: 'Community', url: telegramUrl || 'https://linktr.ee/SuperteamMY', color: '#0088cc', icon: '🔗' },
-    { name: 'Discord', url: discordUrl || 'https://discord.gg/rrUMX92p', color: '#5865F2', icon: '💬' },
-    { name: 'Twitter / X', url: twitterUrl || 'https://x.com/SuperteamMY', color: '#fff', icon: '𝕏' },
+    { name: 'Community', url: telegramUrl || 'https://linktr.ee/SuperteamMY', icon: '🔗' },
+    { name: 'Discord', url: discordUrl || 'https://discord.gg/rrUMX92p', icon: '💬' },
+    { name: 'Twitter / X', url: twitterUrl || 'https://x.com/SuperteamMY', icon: '𝕏' },
   ];
 
   return (
@@ -21,7 +21,6 @@ export default function JoinCta({ title, subtitle, telegramUrl, discordUrl, twit
         background: 'linear-gradient(135deg, rgba(153,69,255,0.08), rgba(20,241,149,0.05), rgba(3,225,255,0.05))',
         border: '1px solid rgba(153,69,255,0.15)', textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
-        <div className="batik-pattern" style={{ position: 'absolute', inset: 0, opacity: 0.03 }} />
         <div style={{ position: 'relative', zIndex: 2, opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s' }}>
           <h2 style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 800, color: '#fff', margin: '0 0 16px', lineHeight: 1.15 }}>
             {title || 'Ready to Build the Future?'}
@@ -29,21 +28,15 @@ export default function JoinCta({ title, subtitle, telegramUrl, discordUrl, twit
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.7 }}>
             {subtitle || 'Join Superteam Malaysia and connect with the most ambitious builders in the Solana ecosystem.'}
           </p>
-
-          {/* Social links */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
             {socials.map((s) => (
               <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 100,
                 background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff', textDecoration: 'none', fontSize: 14, fontWeight: 600, transition: 'all 0.3s',
-              }}>
-                {s.icon} {s.name}
-              </a>
+                color: '#fff', textDecoration: 'none', fontSize: 14, fontWeight: 600,
+              }}>{s.icon} {s.name}</a>
             ))}
           </div>
-
-          {/* Newsletter signup */}
           <div style={{ display: 'flex', maxWidth: 400, margin: '0 auto', gap: 8 }}>
             <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"
               style={{

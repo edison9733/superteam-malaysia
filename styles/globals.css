@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fonts loaded via <link> in layout.js for better performance */
-
 :root {
   --solana-purple: #9945FF;
   --solana-green: #14F195;
@@ -14,13 +12,8 @@
   --bg-hover: #161622;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
@@ -31,35 +24,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: rgba(153, 69, 255, 0.3);
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
+::selection { background: rgba(153, 69, 255, 0.3); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
 
 /* ── Batik Pattern Background (Malaysian Cultural Element) ── */
 .batik-pattern {
   background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='white' stroke-width='0.5'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='white' stroke-width='0.3'/%3E%3Cpath d='M40 20L60 40L40 60L20 40Z' fill='none' stroke='white' stroke-width='0.2'/%3E%3C/svg%3E");
   background-size: 80px 80px;
-}
-
-/* ── Grid Background Pattern ── */
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
 }
 
 /* ── Gradient Text ── */
@@ -78,7 +51,6 @@ body {
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .glass-card:hover {
   border-color: rgba(153, 69, 255, 0.2);
   transform: translateY(-4px);
@@ -90,25 +62,63 @@ body {
   -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
 }
 
+/* ── Photo Marquee ── */
+.photo-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+}
+.photo-marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: photo-scroll 40s linear infinite;
+}
+.photo-marquee:hover .photo-marquee-track {
+  animation-play-state: paused;
+}
+.photo-marquee-track-reverse {
+  animation-direction: reverse;
+}
+.photo-marquee-item {
+  flex-shrink: 0;
+  width: 340px;
+  height: 220px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+@keyframes photo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── Menu link hover ── */
+.menu-link { transition: color 0.3s !important; }
+.menu-link:hover { color: #14F195 !important; }
+.menu-social { transition: color 0.3s !important; }
+.menu-social:hover { color: #fff !important; }
+
 /* ── Animation Utilities ── */
 @keyframes float1 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(-30px, 20px); }
 }
-
 @keyframes float2 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(20px, -30px); }
 }
-
 @keyframes float3 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(-20px, -20px); }
 }
-
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
+}
+@keyframes pulse-globe {
+  0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
 }
 
 /* ── Responsive ── */
@@ -116,7 +126,6 @@ body {
   .desktop-only { display: none !important; }
   .mobile-only { display: flex !important; }
 }
-
 @media (min-width: 769px) {
   .mobile-only { display: none !important; }
 }

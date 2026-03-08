@@ -19,8 +19,7 @@ export default function Faq({ faqs = [] }) {
           {faqs.map((f, i) => (
             <div key={f.id || i} style={{
               borderRadius: 14, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
-              overflow: 'hidden', transition: 'all 0.3s',
-              opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(15px)', transitionDelay: `${i * 0.06}s`,
+              overflow: 'hidden', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(15px)', transitionDelay: `${i * 0.06}s`, transition: 'all 0.3s',
             }}>
               <button onClick={() => setOpen(open === i ? null : i)} style={{
                 width: '100%', padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',

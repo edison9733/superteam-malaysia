@@ -16,28 +16,33 @@ const BADGE_COLORS = {
 export default function MembersSpotlight({ members = [] }) {
   const [ref, inView] = useInView();
   const [flipped, setFlipped] = useState(null);
+  const featured = members.filter(m => m.featured);
 
   return (
     <section id="members-section" ref={ref} style={{ padding: '100px 24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20, marginBottom: 48, opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s' }}>
-          <div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#14F195', letterSpacing: 2, textTransform: 'uppercase', display: 'block', marginBottom: 16 }}>Our People</span>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.1, margin: 0, color: '#fff' }}>
-              Member <span style={{ fontStyle: 'italic', fontFamily: "'Instrument Serif', serif", color: '#9945FF' }}>Spotlight</span>
-            </h2>
-          </div>
-          <Link href="/members" style={{
-            padding: '10px 24px', borderRadius: 100, fontSize: 13, fontWeight: 700,
-            background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)',
-            textDecoration: 'none', transition: 'all 0.3s',
+        {/* Header — UAE style */}
+        <div style={{
+          textAlign: 'center', marginBottom: 56,
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.8s',
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 800, lineHeight: 1.15,
+            margin: '0 0 16px', color: '#fff',
           }}>
-            View All Members →
-          </Link>
+            Our Members Are{' '}
+            <span className="gradient-text" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>
+              Industry Leaders
+            </span>
+            , Top-Tier Founders
+            <br />and Influential Creators.
+          </h2>
         </div>
 
+        {/* Member grid with profile photos */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: 16 }}>
-          {members.map((m, i) => {
+          {(featured.length > 0 ? featured : members.slice(0, 8)).map((m, i) => {
             const isFlipped = flipped === m.id;
             const badgeColor = BADGE_COLORS[m.badge] || '#9945FF';
             const achievements = m.achievements || {};
@@ -45,7 +50,7 @@ export default function MembersSpotlight({ members = [] }) {
             return (
               <div key={m.id} onClick={() => setFlipped(isFlipped ? null : m.id)}
                 style={{
-                  perspective: '1000px', cursor: 'pointer', height: 320,
+                  perspective: '1000px', cursor: 'pointer', height: 340,
                   opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
                   transition: `opacity 0.8s ${i * 0.08}s, transform 0.8s ${i * 0.08}s`,
                 }}>
@@ -61,12 +66,22 @@ export default function MembersSpotlight({ members = [] }) {
                     background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+                      {/* Profile photo or initial */}
                       <div style={{
-                        width: 56, height: 56, borderRadius: 16,
+                        width: 56, height: 56, borderRadius: 16, overflow: 'hidden',
                         background: `linear-gradient(135deg, ${badgeColor}33, rgba(255,255,255,0.05))`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 24, fontWeight: 800, color: badgeColor,
-                      }}>{m.name?.charAt(0)}</div>
+                      }}>
+                        <img
+                          src={`/members/${m.twitter}.jpg`}
+                          alt={m.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentElement.innerHTML = `<span style="font-size:24px;font-weight:800;color:${badgeColor}">${m.name?.charAt(0)}</span>`;
+                          }}
+                        />
+                      </div>
                       {m.badge && <span style={{ padding: '4px 10px', borderRadius: 100, fontSize: 10, fontWeight: 700, background: badgeColor + '15', color: badgeColor, alignSelf: 'flex-start' }}>{m.badge}</span>}
                     </div>
                     <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', margin: '0 0 4px' }}>{m.name}</h3>
@@ -113,6 +128,14 @@ export default function MembersSpotlight({ members = [] }) {
               </div>
             );
           })}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
+          <Link href="/members" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px',
+            borderRadius: 100, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none',
+          }}>View All Members →</Link>
         </div>
       </div>
     </section>

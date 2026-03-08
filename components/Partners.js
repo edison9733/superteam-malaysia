@@ -30,24 +30,25 @@ export default function Partners({ partners = [] }) {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 48, opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s' }}>
           <span style={{ fontSize: 12, fontWeight: 700, color: '#FFD700', letterSpacing: 2, textTransform: 'uppercase', display: 'block', marginBottom: 16 }}>Ecosystem</span>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#fff', margin: 0 }}>Partners & Ecosystem</h2>
+          <h2 style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 800, color: '#fff', margin: '0 0 12px' }}>
+            Trusted by Solana&apos;s{' '}
+            <span className="gradient-text" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>Top Projects</span>.
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 500, margin: '0 auto' }}>
+            We&apos;ve helped teams access funding, find talent, and grow within the Solana ecosystem.
+          </p>
         </div>
-
-        {/* Forward marquee */}
         <div className="marquee-container" style={{ overflow: 'hidden', marginBottom: 24 }}>
           <div style={{ display: 'flex', gap: 16, animation: 'marquee 30s linear infinite', width: 'max-content' }}>
             {[...partners, ...partners].map((p, i) => <PartnerChip key={`f-${i}`} p={p} />)}
           </div>
         </div>
-
-        {/* Reverse marquee */}
         <div className="marquee-container" style={{ overflow: 'hidden' }}>
           <div style={{ display: 'flex', gap: 16, animation: 'marquee-reverse 35s linear infinite', width: 'max-content' }}>
             {[...reversed, ...reversed].map((p, i) => <PartnerChip key={`r-${i}`} p={p} />)}
           </div>
         </div>
       </div>
-
       <style jsx>{`
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marquee-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
