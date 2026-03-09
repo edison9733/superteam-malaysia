@@ -1,12 +1,12 @@
 // © 2026 edison9733. All rights reserved.
-// Minimalist dot pattern — barely visible, HD-clean
-
+// Subtle dark noise texture background
 export default function DotBackground() {
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
-      backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)',
-      backgroundSize: '32px 32px',
+      backgroundImage: 'url(/bg-texture.png)',
+      backgroundRepeat: 'repeat',
+      backgroundSize: 'auto',
     }} />
   );
 }
