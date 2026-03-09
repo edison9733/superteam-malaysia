@@ -110,7 +110,7 @@ export default function MembersSpotlight({ members = [] }) {
     if (!scrollRef.current) return;
     const card = scrollRef.current.children[active];
     if (card) {
-      card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      const container = scrollRef.current; const cardCenter = card.offsetLeft + card.offsetWidth / 2; container.scrollTo({ left: cardCenter - container.offsetWidth / 2, behavior: 'smooth' });
     }
   }, [active]);
 

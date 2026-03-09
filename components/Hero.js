@@ -15,9 +15,9 @@ export default function Hero({ title, subtitle, telegramUrl }) {
            Works on both desktop and mobile (cover + center) */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        backgroundImage: 'url(/hero-bg.jpg)',
+        backgroundImage: 'url(/sp_background.jpg)',
         backgroundSize: 'cover', backgroundPosition: 'center',
-        opacity: 0.2,
+        opacity: 0.25,
       }} />
 
       {/* Dark gradient overlay for text readability */}

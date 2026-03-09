@@ -1,10 +1,22 @@
 // © 2026 edison9733. All rights reserved.
 'use client';
 import { useInView } from '@/hooks/useInView';
+import { useEffect } from 'react';
 
 export default function Events({ lumaUrl }) {
   const [ref, inView] = useInView();
   const calendarUrl = lumaUrl || 'https://lu.ma/mysuperteam';
+
+  // Load Luma embed script
+  useEffect(() => {
+    const id = 'luma-checkout-script';
+    if (document.getElementById(id)) return;
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = 'https://embed.lu.ma/checkout-button.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
 
   return (
     <section id="events" ref={ref} style={{ padding: '80px 24px' }}>
@@ -24,32 +36,37 @@ export default function Events({ lumaUrl }) {
             </span>
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 460, margin: '0 auto' }}>
-            Find your tribe and ignite your passion. Scroll through our events below and RSVP directly.
+            Browse our events, RSVP, and join the community.
           </p>
         </div>
 
-        {/* ═══ Luma Calendar Embed ═══
-             Scrollable Luma calendar embedded directly in the page.
-             Users can browse events, see details, and RSVP without leaving your site. */}
-        <div style={{
-          borderRadius: 16, overflow: 'hidden',
-          border: '1px solid rgba(255,255,255,0.06)',
-          background: '#0a0a12',
-          opacity: inView ? 1 : 0,
-          transition: 'opacity 1s 0.2s',
-        }}>
+        {/* Luma Calendar Embed */}
+        <div
+          className="luma-embed"
+          style={{
+            borderRadius: 16, overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.06)',
+            opacity: inView ? 1 : 0,
+            transition: 'opacity 1s 0.2s',
+          }}
+        >
           <iframe
-            src={calendarUrl}
-            style={{
-              width: '100%', height: 650, border: 'none',
-              borderRadius: 16, colorScheme: 'dark',
-            }}
+            src="https://lu.ma/embed/calendar/cal-mysuperteam/events?lt=light"
+            style={{ width: '100%', height: 700, border: 'none', borderRadius: 16 }}
             allowFullScreen
-            aria-label="Superteam Malaysia Events on Luma"
+            aria-hidden="false"
+            tabIndex="0"
           />
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 24 }}>
+        <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.25)', marginTop: 16 }}>
+          If events do not load above,{' '}
+          <a href={calendarUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#03E1FF', textDecoration: 'underline' }}>
+            view them directly on Luma
+          </a>
+        </p>
+
+        <div style={{ textAlign: 'center', marginTop: 20 }}>
           <a href={calendarUrl} target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 100,
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
