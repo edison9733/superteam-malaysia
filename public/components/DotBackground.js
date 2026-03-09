@@ -7,6 +7,7 @@ export default function DotBackground() {
       backgroundImage: 'url(/bg-texture.png)',
       backgroundRepeat: 'repeat',
       backgroundSize: 'auto',
+      opacity: 1.0,
     }} />
   );
 }
