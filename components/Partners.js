@@ -9,16 +9,19 @@ import { useInView } from '@/hooks/useInView';
 const PARTNER_LIST = [
   { name: 'Solana Foundation', logo: '/partners/solana-foundation.svg', url: 'https://solana.org' },
   { name: 'Jupiter', logo: '/partners/jupiter.svg', url: 'https://jup.ag' },
-  { name: 'Marinade Finance', logo: '/partners/marinade.svg', url: 'https://marinade.finance' },
+  { name: 'Wormhole', logo: '/partners/wormhole.svg', url: 'https://wormhole.com' },
   { name: 'Helius', logo: '/partners/helius.svg', url: 'https://helius.dev' },
-  { name: 'Tensor', logo: '/partners/tensor.svg', url: 'https://tensor.trade' },
+  { name: 'Sanctum', logo: '/partners/sanctum.svg', url: 'https://sanctum.so' },
   { name: 'Magic Eden', logo: '/partners/magic-eden.svg', url: 'https://magiceden.io' },
-  { name: 'Orca', logo: '/partners/orca.svg', url: 'https://orca.so' },
   { name: 'Phantom', logo: '/partners/phantom.svg', url: 'https://phantom.app' },
   { name: 'Backpack', logo: '/partners/backpack.svg', url: 'https://backpack.app' },
   { name: 'Jito', logo: '/partners/jito.svg', url: 'https://jito.wtf' },
+  { name: 'Orca', logo: '/partners/orca.svg', url: 'https://orca.so' },
+  { name: 'Tensor', logo: '/partners/tensor.svg', url: 'https://tensor.trade' },
   { name: 'Pyth Network', logo: '/partners/pyth.svg', url: 'https://pyth.network' },
   { name: 'Raydium', logo: '/partners/raydium.svg', url: 'https://raydium.io' },
+  { name: 'Marinade Finance', logo: '/partners/marinade.svg', url: 'https://marinade.finance' },
+  { name: 'CUDIS', logo: '/partners/cudis.svg', url: 'https://cudis.xyz' },
 ];
 
 function PartnerItem({ p }) {
@@ -34,7 +37,7 @@ function PartnerItem({ p }) {
       <img
         src={p.logo}
         alt={p.name}
-        style={{ height: 28, maxWidth: 140, objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
+        style={{ height: 32, maxWidth: 150, objectFit: 'contain' }}
         onError={(e) => {
           // Fallback: show text name if logo not found
           e.target.style.display = 'none';
