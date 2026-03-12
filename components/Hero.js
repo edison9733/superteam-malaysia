@@ -1,81 +1,161 @@
-// © 2026 edison9733. All rights reserved.
 'use client';
-import { useInView } from '@/hooks/useInView';
+import { useState, useEffect, useRef } from 'react';
 
-export default function Hero({ title, subtitle, telegramUrl }) {
-  const [ref, inView] = useInView();
+export default function Hero() {
+  const [typedText, setTypedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const [startTyping, setStartTyping] = useState(false);
+  const fullText = ' in Malaysia';
+  const typingRef = useRef(null);
+
+  useEffect(() => {
+    const delay = setTimeout(() => setStartTyping(true), 1200);
+    return () => clearTimeout(delay);
+  }, []);
+
+  useEffect(() => {
+    if (!startTyping) return;
+    let i = 0;
+    typingRef.current = setInterval(() => {
+      i++;
+      setTypedText(fullText.slice(0, i));
+      if (i >= fullText.length) {
+        clearInterval(typingRef.current);
+        setTimeout(() => setShowCursor(false), 1500);
+      }
+    }, 100 + Math.random() * 80);
+    return () => clearInterval(typingRef.current);
+  }, [startTyping]);
 
   return (
-    <section ref={ref} style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      position: 'relative', overflow: 'hidden', padding: '120px 24px 80px',
+    <section id="hero" style={{
+      position: 'relative',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+      padding: '0 24px',
     }}>
-      {/* Background image — no dark filter, just natural opacity */}
+      {/* Background image */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
         backgroundImage: 'url(/sp_background.jpg)',
-        backgroundSize: 'cover', backgroundPosition: 'center',
-        opacity: 0.45,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }} />
-
-      {/* Minimal edge fade only (keeps center bright) */}
+      {/* Dark overlay for contrast */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 1,
-        background: 'radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(8,8,14,0.7) 75%, rgba(8,8,14,1) 100%)',
+        background: 'linear-gradient(180deg, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.94) 100%)',
       }} />
 
-      {/* Subtle glow */}
-      <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: '80vmin', height: '80vmin', borderRadius: '50%', background: 'radial-gradient(circle, rgba(20,241,149,0.05) 0%, transparent 60%)', animation: 'pulse-globe 8s ease-in-out infinite', zIndex: 1 }} />
-
-      <div style={{ maxWidth: 800, textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px',
-          borderRadius: 100, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
+      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 900 }}>
+        {/* Subtitle */}
+        <p style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 14,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.5)',
           marginBottom: 32,
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
         }}>
-          <span style={{ width: 6, height: 6, borderRadius: 3, background: '#14F195', animation: 'pulse 2s infinite' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', letterSpacing: 1.5, textTransform: 'uppercase' }}>Solana Ecosystem · Malaysia</span>
-        </div>
+          Solana Ecosystem · Malaysia
+        </p>
 
+        {/* Main heading — staggered */}
         <h1 style={{
-          fontSize: 'clamp(42px, 8vw, 84px)', fontWeight: 800, lineHeight: 1.0,
-          margin: '0 0 24px', letterSpacing: '-0.04em',
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'all 1s cubic-bezier(0.16,1,0.3,1) 0.1s', color: '#fff',
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          fontWeight: 800,
+          lineHeight: 1.05,
+          margin: 0,
         }}>
-          We Lead Solana{' '}Growth{' '}
-          <span style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontStyle: 'italic', color: '#14F195' }}>
-            in Malaysia
+          <span style={{
+            display: 'block',
+            fontSize: 'clamp(40px, 8vw, 96px)',
+            color: 'rgba(255,255,255,0.35)',
+            textAlign: 'left',
+          }}>
+            We Lead Solana
+          </span>
+          <span style={{
+            display: 'block',
+            fontSize: 'clamp(40px, 8vw, 96px)',
+            textAlign: 'right',
+            paddingLeft: '18%',
+          }}>
+            <span style={{ color: 'rgba(255,255,255,0.35)' }}>Growth</span>
+            <span style={{ color: '#14F195', fontStyle: 'italic' }}>{typedText}</span>
+            {showCursor && (
+              <span style={{
+                display: 'inline-block',
+                width: 3,
+                height: 'clamp(36px, 7vw, 80px)',
+                backgroundColor: '#14F195',
+                marginLeft: 4,
+                verticalAlign: 'text-bottom',
+                animation: 'cursorBlink 0.8s infinite',
+              }} />
+            )}
           </span>
         </h1>
 
+        {/* Subtext */}
         <p style={{
-          fontSize: 'clamp(15px, 1.8vw, 18px)', color: 'rgba(255,255,255,0.5)',
-          maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7,
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 1s cubic-bezier(0.16,1,0.3,1) 0.25s',
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 'clamp(14px, 2vw, 18px)',
+          color: 'rgba(255,255,255,0.45)',
+          marginTop: 32,
+          lineHeight: 1.7,
+          maxWidth: 560,
+          marginLeft: 'auto',
+          marginRight: 'auto',
         }}>
-          {subtitle || "Founders, creators, and builders unite to shape Solana's future in Southeast Asia."}
+          The home for Solana builders, creators, and innovators in Malaysia. Join the movement shaping Web3 in Southeast Asia.
         </p>
 
-        <div style={{
-          display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap',
-          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 1s cubic-bezier(0.16,1,0.3,1) 0.4s',
-        }}>
-          <a href={telegramUrl || "https://linktr.ee/SuperteamMY"} target="_blank" rel="noopener noreferrer" style={{
-            padding: '13px 32px', borderRadius: 100, fontSize: 14, fontWeight: 700,
-            textDecoration: 'none', background: '#fff', color: '#08080e',
-          }}>Join Community</a>
+        {/* Buttons */}
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 40, flexWrap: 'wrap' }}>
+          <a href="https://linktr.ee/SuperteamMY" target="_blank" rel="noopener noreferrer" style={{
+            padding: '14px 32px',
+            backgroundColor: '#fff',
+            color: '#000',
+            borderRadius: 50,
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 700,
+            fontSize: 15,
+            textDecoration: 'none',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+          }}>
+            Join Community
+          </a>
           <a href="https://superteam.fun" target="_blank" rel="noopener noreferrer" style={{
-            padding: '13px 32px', borderRadius: 100, fontSize: 14, fontWeight: 700,
-            textDecoration: 'none', background: 'transparent', color: '#fff',
-            border: '1px solid rgba(255,255,255,0.15)',
-          }}>Explore Opportunities</a>
+            padding: '14px 32px',
+            border: '1px solid rgba(255,255,255,0.2)',
+            color: 'rgba(255,255,255,0.7)',
+            borderRadius: 50,
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 600,
+            fontSize: 15,
+            textDecoration: 'none',
+            transition: 'border-color 0.2s',
+          }}>
+            Explore Opportunities
+          </a>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes cursorBlink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        @media (max-width: 768px) {
+          h1 span { text-align: center !important; padding-left: 0 !important; }
+        }
+      `}</style>
     </section>
   );
 }

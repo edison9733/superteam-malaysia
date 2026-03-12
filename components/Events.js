@@ -1,232 +1,103 @@
-// © 2026 edison9733. All rights reserved.
-// components/Events.js
-// Events Section — Luma Integration
-// Strategy: Try iframe with public Luma URL first, fall back to animated event cards
 'use client';
-import { useInView } from '@/hooks/useInView';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// ═══ LUMA INTEGRATION GUIDE ═══
-//
-// METHOD 1: Public URL iframe (works without admin access)
-//   - Uses https://lu.ma/mysuperteam directly in iframe
-//   - Luma MAY block this via X-Frame-Options header
-//   - If it works: you get a full mini-Luma experience
-//   - If blocked: we show animated event cards as fallback
-//
-// METHOD 2: Official embed URL (requires admin)
-//   - Ask Henry or Marianne for: Luma → Manage Calendar → Settings → Embed
-//   - The URL format: https://lu.ma/embed/calendar/cal-XXXXX/events
-//   - Replace LUMA_EMBED_URL below with the real one
-//
-// METHOD 3: Luma API (requires API key from admin)
-//   - Get API key from https://docs.lu.ma/reference/getting-started
-//   - Set LUMA_API_KEY in .env.local
-//   - Our /api/events route already supports this!
-
-const LUMA_PUBLIC_URL = 'https://lu.ma/mysuperteam';
-
-// ★ Replace this with the real embed URL when you get it from the admin ★
-const LUMA_EMBED_URL = null; // e.g. 'https://lu.ma/embed/calendar/cal-XXXXX/events'
-
-// Real past events for the animated cards fallback
-const REAL_EVENTS = [
-  {
-    title: 'CYPHERthon 2025',
-    date: 'Sep 2025',
-    type: 'hackathon',
-    venue: 'Kuala Lumpur',
-    prize: '$5-10K',
-    desc: '4-week hackathon with Colosseum. Build real MVPs on Solana.',
-    color: '#9945FF',
-    luma: 'https://lu.ma/mysuperteam',
-  },
-  {
-    title: 'Solana Hub Launch',
-    date: 'Aug 2025',
-    type: 'milestone',
-    venue: 'CCACC MYVerse, KL',
-    prize: '',
-    desc: "Malaysia's first permanent Solana Hub officially opens.",
-    color: '#14F195',
-    luma: 'https://lu.ma/mysuperteam',
-  },
-  {
-    title: 'MegaHackathon 2025',
-    date: 'Jun 2025',
-    type: 'hackathon',
-    venue: 'Monash University MY',
-    prize: '$15,000',
-    desc: 'Major hackathon with 9-week workshop preparation series.',
-    color: '#03E1FF',
-    luma: 'https://lu.ma/mysuperteam',
-  },
-  {
-    title: 'Solana Demo Day Malaysia',
-    date: 'May 2025',
-    type: 'demo_day',
-    venue: 'AWS Office, 35th Floor',
-    prize: '',
-    desc: 'First-ever Solana Demo Day. 87 attendees, 6 judges.',
-    color: '#FFD700',
-    luma: 'https://lu.ma/mysuperteam',
-  },
-  {
-    title: 'Buidl to Scale: Solana Edition',
-    date: '2025',
-    type: 'meetup',
-    venue: 'Kuala Lumpur',
-    prize: '',
-    desc: '218 attendees. Co-hosted with ScalingX and GEN.',
-    color: '#FF6B9D',
-    luma: 'https://lu.ma/mysuperteam',
-  },
-  {
-    title: 'Solana Hackfest',
-    date: 'Apr 2024',
-    type: 'hackathon',
-    venue: 'APU, KL',
-    prize: '',
-    desc: '62K views. The most viral Superteam MY event ever.',
-    color: '#9945FF',
-    luma: 'https://lu.ma/mysuperteam',
-  },
+const EVENTS = [
+  { type: '🏆 Hackathon', date: 'Sep 2025', title: 'CYPHERthon 2025', desc: '4-week hackathon with Colosseum. Build real MVPs on Solana.', location: 'Kuala Lumpur', prize: '$5-10K', image: '/events/cypherthon.jpeg', link: 'https://lu.ma/mysuperteam' },
+  { type: '🚀 Milestone', date: 'Aug 2025', title: 'Solana Hub Launch', desc: "Malaysia's first permanent Solana Hub officially opens.", location: 'CCACC MYVerse, KL', image: '/events/solanahub.jpeg', link: 'https://lu.ma/mysuperteam' },
+  { type: '🏆 Hackathon', date: 'Jun 2025', title: 'MegaHackathon 2025', desc: 'Major hackathon with 9-week workshop preparation series.', location: 'Monash University MY', prize: '$15,000', image: '/events/megahackathon.jpeg', link: 'https://lu.ma/mysuperteam' },
+  { type: '🎤 Demo Day', date: 'May 2025', title: 'Solana Demo Day Malaysia', desc: 'First-ever Solana Demo Day. 87 attendees, 6 judges.', location: 'AWS Office, 35th Floor', image: '/events/solanademo.jpeg', link: 'https://lu.ma/mysuperteam' },
+  { type: '🤝 Meetup', date: '2025', title: 'Build to Scale: Solana Edition', desc: '218 attendees. Co-hosted with ScalingX and GEN.', location: 'Kuala Lumpur', image: '/events/buidl.jpeg', link: 'https://lu.ma/mysuperteam' },
+  { type: '🏆 Hackathon', date: 'Apr 2024', title: 'Solana Hackfest', desc: '62K views. The most viral Superteam MY event ever.', location: 'APU, KL', image: '/events/solanahackfest.jpeg', link: 'https://lu.ma/mysuperteam' },
 ];
 
-const TYPE_LABELS = {
-  hackathon: '🏆 Hackathon',
-  meetup: '🤝 Meetup',
-  workshop: '🛠️ Workshop',
-  demo_day: '🎤 Demo Day',
-  milestone: '🚀 Milestone',
-};
+export default function Events({ events: propEvents }) {
+  const [visible, setVisible] = useState(false);
+  const evts = EVENTS;
 
-function EventCard({ event, index, inView }) {
-  const [hovered, setHovered] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 200);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <a
-      href={event.luma}
-      target="_blank"
-      rel="noopener noreferrer"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'block',
-        padding: 24,
-        borderRadius: 16,
-        background: hovered
-          ? `linear-gradient(135deg, ${event.color}12, rgba(255,255,255,0.03))`
-          : 'rgba(255,255,255,0.02)',
-        border: hovered
-          ? `1px solid ${event.color}30`
-          : '1px solid rgba(255,255,255,0.06)',
-        textDecoration: 'none',
-        color: 'inherit',
-        transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        opacity: inView ? 1 : 0,
-        transitionDelay: `${index * 0.08}s`,
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-        <span style={{
-          padding: '4px 10px', borderRadius: 100, fontSize: 11, fontWeight: 600,
-          background: `${event.color}15`, color: event.color,
-        }}>
-          {TYPE_LABELS[event.type] || event.type}
-        </span>
-        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{event.date}</span>
-      </div>
+    <section id="events" className="scroll-spy-section" style={{ padding: '100px 24px', maxWidth: 900, margin: '0 auto' }}>
+      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#14F195', textAlign: 'center', marginBottom: 12 }}>Our Events</p>
+      <h2 className="section-title" style={{
+        fontFamily: "'Inter', sans-serif", fontWeight: 800,
+        fontSize: 'clamp(32px, 5vw, 56px)', textAlign: 'center',
+        color: 'rgba(255,255,255,0.85)', marginBottom: 16,
+        transition: 'opacity 0.5s ease, text-shadow 0.5s ease',
+      }}>
+        Our <span style={{ color: '#14F195', fontStyle: 'italic' }}>Events</span>
+      </h2>
+      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginBottom: 48 }}>
+        30+ events hosted. Hackathons, workshops, demo days, and community meetups.
+      </p>
 
-      <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>{event.title}</h3>
-      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: '0 0 10px', lineHeight: 1.5 }}>{event.desc}</p>
-
-      <div style={{ display: 'flex', gap: 12, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-        <span>📍 {event.venue}</span>
-        {event.prize && <span>💰 {event.prize}</span>}
-      </div>
-    </a>
-  );
-}
-
-export default function Events({ lumaUrl }) {
-  const [ref, inView] = useInView();
-  const [iframeError, setIframeError] = useState(false);
-  const calendarUrl = lumaUrl || LUMA_PUBLIC_URL;
-  const embedUrl = LUMA_EMBED_URL;
-
-  return (
-    <section id="events" ref={ref} style={{ padding: '80px 24px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{
-          textAlign: 'center', marginBottom: 40,
-          opacity: inView ? 1 : 0,
-          transform: inView ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 0.8s',
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, color: '#fff',
-            margin: '0 0 12px', letterSpacing: '-0.02em',
-          }}>
-            Our{' '}
-            <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', color: '#14F195' }}>
-              Events
-            </span>
-          </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 460, margin: '0 auto' }}>
-            30+ events hosted. Hackathons, workshops, demo days, and community meetups.
-          </p>
-        </div>
-
-        {/* If we have the official embed URL, show iframe */}
-        {embedUrl && !iframeError ? (
-          <div style={{
-            borderRadius: 16, overflow: 'hidden',
-            border: '1px solid rgba(255,255,255,0.06)',
-            background: '#0a0a12',
-            opacity: inView ? 1 : 0, transition: 'opacity 1s 0.2s',
-            marginBottom: 24,
-          }}>
-            <iframe
-              src={embedUrl}
-              style={{ width: '100%', height: 700, border: 'none', borderRadius: 16 }}
-              allowFullScreen
-              loading="lazy"
-              onError={() => setIframeError(true)}
-            />
-          </div>
-        ) : (
-          /* Animated event cards — shows real events */
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: 12,
-            marginBottom: 24,
-          }}>
-            {REAL_EVENTS.map((event, i) => (
-              <EventCard key={event.title} event={event} index={i} inView={inView} />
-            ))}
-          </div>
-        )}
-
-        {/* CTA buttons */}
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href={calendarUrl} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '14px 32px', borderRadius: 100,
-            background: 'linear-gradient(135deg, #9945FF, #14F195)',
-            color: '#fff', fontSize: 15, fontWeight: 700, textDecoration: 'none',
-          }}>Browse All Events on Luma ↗</a>
-
-          <a href={calendarUrl} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '14px 24px', borderRadius: 100,
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-            color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600,
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        {evts.map((e, i) => (
+          <a key={i} href={e.link} target="_blank" rel="noopener noreferrer" style={{
+            display: 'block',
             textDecoration: 'none',
-          }}>View Full Calendar ↗</a>
-        </div>
+            padding: 24,
+            borderRadius: 16,
+            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(255,255,255,0.02)',
+            transition: 'border-color 0.3s, transform 0.3s, background 0.3s',
+          }}
+          onMouseEnter={ev => { ev.currentTarget.style.borderColor = 'rgba(20,241,149,0.3)'; ev.currentTarget.style.transform = 'translateY(-2px)'; ev.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+          onMouseLeave={ev => { ev.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; ev.currentTarget.style.transform = 'none'; ev.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
+          >
+            {/* Event image */}
+            {e.image ? (
+              <div style={{ marginBottom: 16, borderRadius: 12, overflow: 'hidden' }}>
+                <img src={e.image} alt={e.title} style={{ width: '100%', height: 140, objectFit: 'cover', display: 'block' }}
+                  onError={(ev) => { ev.target.style.display = 'none'; }}
+                />
+              </div>
+            ) : (
+              <div style={{ marginBottom: 16, height: 100, borderRadius: 12, border: '1px dashed rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.2)', fontSize: 13, fontFamily: "'Inter', sans-serif" }}>
+                📷 Add event image
+              </div>
+            )}
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#14F195', fontWeight: 600 }}>{e.type}</span>
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>{e.date}</span>
+            </div>
+            <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 20, color: '#fff', margin: '0 0 8px' }}>{e.title}</h3>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.45)', margin: '0 0 12px', lineHeight: 1.5 }}>{e.desc}</p>
+            <div style={{ display: 'flex', gap: 16, fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>
+              <span>📍 {e.location}</span>
+              {e.prize && <span>💰 {e.prize}</span>}
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {/* Green bouncing buttons */}
+      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 40, flexWrap: 'wrap' }}>
+        <a href="https://lu.ma/mysuperteam" target="_blank" rel="noopener noreferrer" style={{
+          display: 'inline-block', padding: '14px 32px',
+          backgroundColor: '#14F195', color: '#000',
+          borderRadius: 50, fontFamily: "'Inter', sans-serif",
+          fontWeight: 700, fontSize: 15, textDecoration: 'none',
+          boxShadow: '0 0 20px rgba(20,241,149,0.3)',
+          transition: 'transform 0.2s, box-shadow 0.2s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 32px rgba(20,241,149,0.5)'; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 0 20px rgba(20,241,149,0.3)'; }}
+        >Browse All Events on Luma →</a>
+        <a href="https://lu.ma/mysuperteam" target="_blank" rel="noopener noreferrer" style={{
+          display: 'inline-block', padding: '14px 32px',
+          border: '1px solid #14F195', color: '#14F195',
+          borderRadius: 50, fontFamily: "'Inter', sans-serif",
+          fontWeight: 600, fontSize: 15, textDecoration: 'none',
+          transition: 'background 0.2s, transform 0.2s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(20,241,149,0.1)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.transform = 'none'; }}
+        >View Full Calendar →</a>
       </div>
     </section>
   );
