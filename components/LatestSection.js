@@ -2,9 +2,9 @@
 import { useState } from 'react';
 
 const LATEST_TWEETS = [
-  { name: 'Ivan', handle: '@ivan_nomadz', text: "2/ Solana Network State by @sns | @SuperteamMY | @ns — Johor | Kuala Lumpur, Malaysia. April 1 – May 14. 1 month hackathon with side tracks from SNS & @magicblock, which will culminate in a Demo Day at @balajis's Network School.", image: '/wall/ivan.jpeg', url: 'https://x.com/ivan_nomadz/status/2032109845697216949' },
-  { name: 'Superteam MY', handle: '@SuperteamMY', text: "The results are in! Telegram Bot Bounty winners: Jing Yuan & Qi Jian (@ilovedahmo and @derek2403), Zhe Hong (@SohZheHong2), Wei Hup (@_weihup), HaoXiang (@haoxiang_14). Congrats builders!", image: '/wall/bounty.jpeg', url: 'https://x.com/SuperteamMY/status/2031347706606793161' },
-  { name: 'Superteam MY', handle: '@SuperteamMY', text: "Next Ecosystem Sync — Inside Chiliz Vision 2030 with @Siyi_Chen1, Partnership Manager at @Chiliz. Fresh from the Chiliz Manifesto drop, Siyi unpacks their 2026–2030 strategy for turning Fan Tokens into the financial rails of a trillion-dollar SportFi economy.", image: '/wall/siyi.jpeg', url: 'https://x.com/SuperteamMY/status/2030979620686950638' },
+  { name: 'Ivan', handle: '@ivan_nomadz', text: "Solana Network State × @SuperteamMY × @ns — Johor & KL, Malaysia. Apr 1 – May 14. A full month hackathon with side tracks from SNS & @magicblock, culminating in Demo Day at @balajis's Network School. This is where startups get built.", image: '/wall/ivan.jpeg', url: 'https://x.com/ivan_nomadz/status/2032109845697216949' },
+  { name: 'Superteam MY', handle: '@SuperteamMY', text: "The results are in! 🏆 Telegram Bot Bounty winners — Jing Yuan & Qi Jian, Zhe Hong, Wei Hup, HaoXiang. Congrats builders! This is what shipping looks like.", image: '/wall/bounty.jpeg', url: 'https://x.com/SuperteamMY/status/2031347706606793161' },
+  { name: 'Superteam MY', handle: '@SuperteamMY', text: "Next Ecosystem Sync — Inside Chiliz Vision 2030 with @Siyi_Chen1 from @Chiliz. Fresh from the Manifesto drop, Siyi unpacks the 2026–2030 strategy for turning Fan Tokens into the financial rails of a trillion-dollar SportFi economy.", image: '/wall/siyi.jpeg', url: 'https://x.com/SuperteamMY/status/2030979620686950638' },
 ];
 
 function LatestCard({ t, span }) {

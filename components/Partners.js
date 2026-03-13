@@ -10,9 +10,9 @@ const LOGO_MAP = {
   'Magic Eden': '/partners/magic-eden.svg',
   'Phantom': '/partners/phantom.svg',
   'Backpack': '/partners/backpack.svg',
-  'Jito': '/partners/jito.svg',
+  'Jito': '/partners/jito.png',
   'Orca': '/partners/orca.svg',
-  'Tensor': '/partners/tensor.svg',
+  'Tensor': '/partners/tensor.png',
   'Pyth Network': '/partners/pyth.svg',
   'Raydium': '/partners/raydium.svg',
   'Marinade Finance': '/partners/marinade.svg',
@@ -34,10 +34,7 @@ export default function Partners({ partners: propPartners }) {
 
   return (
     <section id="partners" className="scroll-spy-section" style={{ padding: '80px 24px', overflow: 'hidden' }}>
-      <h2 className="section-title" style={{
-        fontFamily: "'Inter', sans-serif", fontWeight: 800,
-        fontSize: 'clamp(28px, 5vw, 48px)', textAlign: 'center', marginBottom: 12,
-      }}>
+      <h2 className="section-title" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 5vw, 48px)', textAlign: 'center', marginBottom: 12 }}>
         <span style={{ color: 'rgba(255,255,255,0.35)' }}>Backed by Solana's </span>
         <span style={{ color: '#14F195' }}>Most Geng Projects.</span>
       </h2>
@@ -53,10 +50,10 @@ export default function Partners({ partners: propPartners }) {
               onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.15)'; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'scale(1)'; }}>
               {p.logo ? (
-                <img src={p.logo} alt={p.name} style={{ maxWidth: 130, maxHeight: 60, objectFit: 'contain', filter: 'brightness(1.6)' }}
-                  onError={(ev) => { ev.target.style.display = 'none'; ev.target.parentElement.innerHTML = `<span style="font-size:13px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;text-align:center;font-weight:700">${p.name}</span>`; }} />
+                <img src={p.logo} alt={p.name} style={{ maxWidth: 140, maxHeight: 65, objectFit: 'contain', filter: 'brightness(1.5) contrast(1.1)' }}
+                  onError={(ev) => { ev.target.style.display = 'none'; ev.target.parentElement.innerHTML = `<span style="font-size:14px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;text-align:center;font-weight:700">${p.name}</span>`; }} />
               ) : (
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter', sans-serif", textAlign: 'center', fontWeight: 700 }}>{p.name}</span>
+                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', fontFamily: "'Inter', sans-serif", textAlign: 'center', fontWeight: 700 }}>{p.name}</span>
               )}
             </a>
           ))}
@@ -71,10 +68,10 @@ export default function Partners({ partners: propPartners }) {
               onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.15)'; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'scale(1)'; }}>
               {p.logo ? (
-                <img src={p.logo} alt={p.name} style={{ maxWidth: 130, maxHeight: 60, objectFit: 'contain', filter: 'brightness(1.6)' }}
-                  onError={(ev) => { ev.target.style.display = 'none'; ev.target.parentElement.innerHTML = `<span style="font-size:13px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif;text-align:center;font-weight:700">${p.name}</span>`; }} />
+                <img src={p.logo} alt={p.name} style={{ maxWidth: 140, maxHeight: 65, objectFit: 'contain', filter: 'brightness(1.5) contrast(1.1)' }}
+                  onError={(ev) => { ev.target.style.display = 'none'; ev.target.parentElement.innerHTML = `<span style="font-size:14px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;text-align:center;font-weight:700">${p.name}</span>`; }} />
               ) : (
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter', sans-serif", textAlign: 'center', fontWeight: 700 }}>{p.name}</span>
+                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', fontFamily: "'Inter', sans-serif", textAlign: 'center', fontWeight: 700 }}>{p.name}</span>
               )}
             </a>
           ))}

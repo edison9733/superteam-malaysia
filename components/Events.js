@@ -1,17 +1,50 @@
 'use client';
 import { useState } from 'react';
-import { FALLBACK_EVENTS } from '../lib/fallback-data';
 
-const TYPE_EMOJI = { hackathon: '🏆', meetup: '🤝', workshop: '🛠️', bootcamp: '🎓', demo: '🎤', demo_day: '🎤', 'ecosystem-sync': '🔄', networking: '🌐', other: '📌' };
+const EVENTS = [
+  {
+    title: 'Solana Network State [Spring 2026]',
+    type: 'Hackathon',
+    date: 'Apr 1 – May 14, 2026',
+    desc: '5-week Build Station at Network School × Colosseum Hackathon. Ship startups on Solana with mentor office hours, pitch sessions, and Demo Day.',
+    location: 'Forest City, Johor & AWS Office, KL',
+    image: '/events/state.jpeg',
+    link: 'https://lu.ma/mysuperteam',
+  },
+  {
+    title: 'Ecosystem Sync ft. Arcium',
+    type: 'Community Call',
+    date: 'Mar 24, 2026',
+    desc: 'Deep dive into Arcium — the Encrypted Supercomputer on Solana. Privacy-preserving compute, Umbra wallet, and the RTG model with Loosty (Head of Community).',
+    location: 'Network School Library',
+    image: '/events/arcium.jpeg',
+    link: 'https://lu.ma/mysuperteam',
+  },
+  {
+    title: 'Solana Turns 6! 🎂',
+    type: 'Party',
+    date: 'Mar 14, 2026',
+    desc: "Celebrating 6 years of Solana at Network School! Community session, birthday cake, mini tarts, then DJs take over the Mafia Room at 8PM.",
+    location: 'NS Mafia Room Level 13',
+    image: '/events/6.jpeg',
+    link: 'https://lu.ma/mysuperteam',
+  },
+  {
+    title: 'Ecosystem Sync ft. CUDIS Wellness',
+    type: 'Community Call',
+    date: 'Mar 31, 2026',
+    desc: 'From steps to store credit. CUDIS is building health-native experiences on Solana — wearables, habit tracking, and onchain wellness rewards.',
+    location: 'NS Library',
+    image: '/events/cudis.jpeg',
+    link: 'https://lu.ma/mysuperteam',
+  },
+];
 
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  try { return new Date(dateStr).toLocaleDateString('en-MY', { month: 'short', year: 'numeric' }); } catch { return dateStr; }
-}
+const TYPE_EMOJI = { Hackathon: '🏆', 'Community Call': '🎤', Party: '🎉', Meetup: '🤝' };
 
 export default function Events({ events: propEvents }) {
   const [hovered, setHovered] = useState(null);
-  const evts = (propEvents && propEvents.length > 0) ? propEvents : FALLBACK_EVENTS;
+  const evts = EVENTS;
 
   return (
     <section id="events" className="scroll-spy-section" style={{ padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
@@ -19,23 +52,14 @@ export default function Events({ events: propEvents }) {
         Our <span style={{ color: '#14F195', fontStyle: 'italic' }}>Events</span>
       </h2>
       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginBottom: 48 }}>
-        30+ events hosted. Hackathons, workshops, demo days, and community meetups.
+        Hackathons, community calls, demo days, and birthday parties.
       </p>
 
-      <div className="events-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
-        {evts.slice(0, 6).map((e, i) => {
-          const title = e.title;
-          const type = e.type || e.event_type || 'other';
-          const emoji = TYPE_EMOJI[type] || '📌';
-          const date = e.date ? formatDate(e.date) : '';
-          const desc = e.description || e.desc || '';
-          const location = e.location || e.venue || '';
-          const prize = e.prize_pool || e.prize || '';
-          const image = e.image_url || e.image || null;
-          const link = e.luma_url || e.link || 'https://lu.ma/mysuperteam';
-
+      <div className="events-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+        {evts.map((e, i) => {
+          const emoji = TYPE_EMOJI[e.type] || '📌';
           return (
-            <a key={i} href={link} target="_blank" rel="noopener noreferrer"
+            <a key={i} href={e.link} target="_blank" rel="noopener noreferrer"
               onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
               style={{
                 display: 'flex', flexDirection: 'column', textDecoration: 'none', borderRadius: 20, overflow: 'hidden',
@@ -43,23 +67,20 @@ export default function Events({ events: propEvents }) {
                 background: hovered === i ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
                 transition: 'all 0.3s ease', transform: hovered === i ? 'translateY(-4px)' : 'none',
               }}>
-              <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden', background: 'linear-gradient(135deg, rgba(20,241,149,0.08), rgba(153,69,255,0.08))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {image ? (
-                  <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              <div style={{ width: '100%', aspectRatio: '16/10', overflow: 'hidden', background: 'linear-gradient(135deg, rgba(20,241,149,0.08), rgba(153,69,255,0.08))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {e.image ? (
+                  <img src={e.image} alt={e.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     onError={(ev) => { ev.target.style.display = 'none'; ev.target.parentElement.innerHTML = `<span style="color:rgba(255,255,255,0.2);font-size:40px">${emoji}</span>`; }} />
                 ) : <span style={{ fontSize: 40 }}>{emoji}</span>}
               </div>
               <div style={{ padding: 20, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: '#14F195', fontWeight: 600 }}>{emoji} {type.replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase())}</span>
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{date}</span>
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: '#14F195', fontWeight: 600 }}>{emoji} {e.type}</span>
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{e.date}</span>
                 </div>
-                <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 18, color: '#fff', margin: '0 0 8px' }}>{title}</h3>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: '0 0 12px', lineHeight: 1.5, flex: 1 }}>{desc}</p>
-                <div style={{ display: 'flex', gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.35)', flexWrap: 'wrap' }}>
-                  {location && <span>📍 {location}</span>}
-                  {prize && <span>💰 {prize}</span>}
-                </div>
+                <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 18, color: '#fff', margin: '0 0 8px' }}>{e.title}</h3>
+                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: '0 0 12px', lineHeight: 1.5, flex: 1 }}>{e.desc}</p>
+                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>📍 {e.location}</span>
               </div>
             </a>
           );
@@ -76,7 +97,7 @@ export default function Events({ events: propEvents }) {
       </div>
 
       <style jsx>{`
-        @media (max-width: 700px) { .events-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 768px) { .events-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </section>
   );
