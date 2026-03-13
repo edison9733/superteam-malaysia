@@ -6,14 +6,11 @@ const HARDCODED_TWEETS = [
   { name: 'Wei Hup', handle: '@_weihup', org: 'Community Member', text: "Drop by Solana hub today. It's got the new office smell and vibe. Shoutout to @mirrorfi_xyz @SuperteamMY @ccacc_hub", image: '/gallery/event-1.jpg', url: 'https://x.com/_weihup/status/1963008089923453428' },
   { name: 'Nic', handle: '@NicFuryyy', org: 'Sanctum', text: 'The new SuperteamMY Office looking fire ngl', image: '/gallery/event-2.jpg', url: 'https://x.com/NicFuryyy/status/1967442054482731061' },
   { name: 'SOON SVM', handle: '@soon_svm', org: 'Solana SVM Project', text: "The first ever SuperteamMY Solana and ETHKL Ethereum workshop at ETHKL24. We're making history.", image: '/gallery/event-3.jpg', url: 'https://x.com/soon_svm/status/1841787165673705486' },
-  { name: 'Chii Yuen', handle: '@ChiiYuen', org: 'Guild Lead, Lavarage', text: 'Building with the Superteam MY fam has been incredible. The energy at every event, the support from Henry and the team — this community is special. Malaysia Boleh!', url: 'https://x.com/ChiiYuen' },
-  { name: 'Wong Jun Shen', handle: '@_Junshen18', org: 'Designer, APU Hackthletes', text: 'Proud to have contributed to the Solana Ecosystem Market Map with Superteam MY. This community gave me real opportunities to showcase my design work on a global stage.', url: 'https://x.com/_Junshen18' },
-  { name: 'Derek Liew', handle: '@derek', org: 'Guild Lead, TARUMT BCC', text: "Won my first hackathon through Superteam MY. From TARUMT student to guild lead — the growth pipeline here is real. If you're a student, just show up and build.", url: '' },
+  { name: 'Chii Yuen', handle: '@ChiiYuen', org: 'Guild Lead, Lavarage', text: 'Building with the Superteam MY fam has been incredible. The energy at every event, the support from Henry and the team — this community is special. Malaysia Boleh!', image: '/gallery/event-4.jpg', url: 'https://x.com/ChiiYuen' },
 ];
 
 function TweetCard({ t, span }) {
   const [hovered, setHovered] = useState(false);
-  const hasImage = !!t.image;
 
   return (
     <a href={t.url || '#'} target="_blank" rel="noopener noreferrer"
@@ -28,10 +25,9 @@ function TweetCard({ t, span }) {
         transition: 'all 0.35s ease',
         transform: hovered ? 'scale(1.02)' : 'none',
         boxShadow: hovered ? '0 0 24px rgba(255,255,255,0.06)' : 'none',
-      }}
-    >
-      {hasImage && (
-        <div style={{ height: span >= 7 ? 200 : 160, overflow: 'hidden', flexShrink: 0 }}>
+      }}>
+      {t.image && (
+        <div style={{ height: span >= 8 ? 220 : 160, overflow: 'hidden', flexShrink: 0 }}>
           <img src={t.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             onError={(ev) => { ev.target.parentElement.style.display = 'none'; }} />
         </div>
@@ -46,7 +42,7 @@ function TweetCard({ t, span }) {
             fontFamily: "'Inter', sans-serif", flexShrink: 0,
           }}>{t.name[0]}</div>
           <div style={{ minWidth: 0 }}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: '#fff', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: '#fff', margin: 0 }}>{t.name}</p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: 0 }}>{t.handle} · {t.org}</p>
           </div>
           <span style={{ marginLeft: 'auto', fontSize: 16, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>𝕏</span>
@@ -59,18 +55,17 @@ function TweetCard({ t, span }) {
 
 export default function WallOfLove({ testimonials: propTestimonials }) {
   const tweets = (propTestimonials && propTestimonials.length > 0)
-    ? propTestimonials.map(t => ({
+    ? propTestimonials.slice(0, 4).map((t, idx) => ({
         name: t.author || t.name,
         handle: t.twitter ? `@${t.twitter}` : '@',
         org: t.role || t.org || '',
         text: t.content || t.text || '',
-        image: t.image || null,
+        image: t.image || `/gallery/event-${idx + 1}.jpg`,
         url: t.tweet_url || t.url || '#',
       }))
     : HARDCODED_TWEETS;
 
-  // Bento layout: 7+5, 5+7, 6+6
-  const spans = [7, 5, 5, 7, 6, 6];
+  const spans = [8, 4, 4, 8];
 
   return (
     <section id="wall-of-love" className="scroll-spy-section" style={{ padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
@@ -81,13 +76,9 @@ export default function WallOfLove({ testimonials: propTestimonials }) {
         color: 'rgba(255,255,255,0.85)', marginBottom: 48,
       }}>Wall of Love</h2>
 
-      <div className="wall-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(12, 1fr)',
-        gap: 12,
-      }}>
-        {tweets.slice(0, 6).map((t, i) => (
-          <TweetCard key={i} t={t} span={spans[i] || 6} />
+      <div className="wall-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 12 }}>
+        {tweets.slice(0, 4).map((t, i) => (
+          <TweetCard key={i} t={t} span={spans[i]} />
         ))}
       </div>
 

@@ -15,7 +15,6 @@ export default function Events({ events: propEvents }) {
 
   return (
     <section id="events" className="scroll-spy-section" style={{ padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#14F195', textAlign: 'center', marginBottom: 12 }}>Our Events</p>
       <h2 className="section-title" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 'clamp(32px, 5vw, 56px)', textAlign: 'center', color: 'rgba(255,255,255,0.85)', marginBottom: 16 }}>
         Our <span style={{ color: '#14F195', fontStyle: 'italic' }}>Events</span>
       </h2>
