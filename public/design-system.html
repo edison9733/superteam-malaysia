@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>Superteam Malaysia — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #08080e; color: #fff; font-family: 'Inter', sans-serif; padding: 60px; }
+
+.section { margin-bottom: 80px; }
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: #14F195; margin-bottom: 24px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.section-title { font-size: 32px; font-weight: 800; margin-bottom: 40px; color: rgba(255,255,255,0.85); }
+
+/* Color Swatches */
+.color-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px; margin-bottom: 40px; }
+.color-swatch { text-align: center; }
+.color-swatch .box { width: 100%; aspect-ratio: 1; border-radius: 16px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.08); }
+.color-swatch .name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 2px; }
+.color-swatch .hex { font-size: 11px; color: rgba(255,255,255,0.35); font-family: monospace; }
+
+/* Surface swatches */
+.surface-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+.surface-swatch .box { height: 80px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; }
+.surface-swatch .box span { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+/* Typography */
+.type-row { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.type-meta { display: flex; gap: 12px; margin-bottom: 8px; }
+.type-meta span { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); }
+
+/* Component Grid */
+.comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.comp-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 24px; }
+.comp-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #14F195, #0fcc7d); color: #000;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px;
+  padding: 14px 32px; border-radius: 50px; border: none; cursor: pointer;
+  box-shadow: 0 0 24px rgba(20,241,149,0.35); display: inline-block;
+}
+.btn-outline {
+  background: transparent; color: rgba(255,255,255,0.85);
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px;
+  padding: 14px 32px; border-radius: 50px; cursor: pointer;
+  border: 1.5px solid rgba(255,255,255,0.4); display: inline-block;
+}
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+.badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; }
+.badge-green { background: rgba(20,241,149,0.12); color: #14F195; }
+.badge-green::before { background: #14F195; }
+.badge-purple { background: rgba(153,69,255,0.12); color: #9945FF; }
+.badge-purple::before { background: #9945FF; }
+.badge-yellow { background: rgba(234,179,8,0.12); color: #EAB308; }
+.badge-yellow::before { background: #EAB308; }
+
+/* Cards */
+.card-default {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px; padding: 24px; transition: all 0.3s;
+}
+.card-hover {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(20,241,149,0.3);
+  border-radius: 20px; padding: 24px; transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.card-glass {
+  background: rgba(18,18,18,0.80); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 24px;
+}
+
+/* Spacing */
+.spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.spacing-box { background: rgba(20,241,149,0.1); border: 1px dashed rgba(20,241,149,0.3); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.spacing-label { font-size: 12px; color: rgba(255,255,255,0.45); min-width: 180px; }
+.spacing-value { font-size: 14px; font-weight: 700; color: #14F195; }
+
+/* Animation demos */
+.anim-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.anim-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 20px; text-align: center; }
+.anim-card .label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 12px; }
+.anim-card .detail { font-size: 12px; color: rgba(255,255,255,0.25); margin-top: 4px; }
+
+@keyframes ctaBounce {
+  0%, 100% { transform: translateY(0); }
+  15% { transform: translateY(-8px); }
+  30% { transform: translateY(0); }
+  45% { transform: translateY(-5px); }
+  60% { transform: translateY(0); }
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes marqueeLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* Icons */
+.icon-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; }
+.icon-cell { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; text-align: center; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.icon-cell svg { width: 24px; height: 24px; }
+.icon-cell .name { font-size: 10px; color: rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<div style="margin-bottom: 60px;">
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+    <div style="width: 36px; height: 36px; background: #1a1a2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">st</div>
+    <span style="font-size: 28px; font-weight: 800;">SUPERTEAM <span style="color: #14F195;">MY</span></span>
+  </div>
+  <p style="font-size: 16px; color: rgba(255,255,255,0.45);">Design System & Component Library</p>
+</div>
+
+<!-- ====== 1. COLORS ====== -->
+<div class="section">
+  <div class="section-label">01 — Color Tokens</div>
+  
+  <p style="font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px;">Accent Colors (Solana Brand Kit)</p>
+  <div class="color-grid">
+    <div class="color-swatch"><div class="box" style="background: #14F195;"></div><div class="name">Green</div><div class="hex">#14F195</div></div>
+    <div class="color-swatch"><div class="box" style="background: #9945FF;"></div><div class="name">Purple</div><div class="hex">#9945FF</div></div>
+    <div class="color-swatch"><div class="box" style="background: #03E1FF;"></div><div class="name">Cyan</div><div class="hex">#03E1FF</div></div>
+    <div class="color-swatch"><div class="box" style="background: #EAB308;"></div><div class="name">Yellow</div><div class="hex">#EAB308</div></div>
+    <div class="color-swatch"><div class="box" style="background: #F97316;"></div><div class="name">Orange</div><div class="hex">#F97316</div></div>
+    <div class="color-swatch"><div class="box" style="background: #EC4899;"></div><div class="name">Pink</div><div class="hex">#EC4899</div></div>
+    <div class="color-swatch"><div class="box" style="background: #FF6B6B;"></div><div class="name">Red</div><div class="hex">#FF6B6B</div></div>
+  </div>
+
+  <p style="font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px;">Surfaces & Backgrounds</p>
+  <div class="surface-grid">
+    <div class="surface-swatch"><div class="box" style="background: #08080e;"><span>bg/primary #08080E</span></div></div>
+    <div class="surface-swatch"><div class="box" style="background: rgba(255,255,255,0.02);"><span>bg/card 2%</span></div></div>
+    <div class="surface-swatch"><div class="box" style="background: rgba(255,255,255,0.04);"><span>bg/card-hover 4%</span></div></div>
+    <div class="surface-swatch"><div class="box" style="background: rgba(18,18,18,0.80); backdrop-filter: blur(12px);"><span>bg/glass 80% + blur</span></div></div>
+  </div>
+
+  <p style="font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px;">Text Hierarchy</p>
+  <div style="display: flex; gap: 40px; margin-bottom: 24px;">
+    <div><span style="font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.85);">Primary 85%</span><div class="hex" style="margin-top:4px">rgba(255,255,255,0.85)</div></div>
+    <div><span style="font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.45);">Secondary 45%</span><div class="hex" style="margin-top:4px">rgba(255,255,255,0.45)</div></div>
+    <div><span style="font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.35);">Dimmed 35%</span><div class="hex" style="margin-top:4px">rgba(255,255,255,0.35)</div></div>
+  </div>
+
+  <p style="font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 24px;">Borders</p>
+  <div style="display: flex; gap: 24px;">
+    <div style="padding: 16px 32px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;"><span style="font-size: 12px; color: rgba(255,255,255,0.35);">Default — 6% white</span></div>
+    <div style="padding: 16px 32px; border: 1px solid rgba(20,241,149,0.3); border-radius: 12px;"><span style="font-size: 12px; color: rgba(255,255,255,0.35);">Hover — 30% green</span></div>
+  </div>
+</div>
+
+<!-- ====== 2. TYPOGRAPHY ====== -->
+<div class="section">
+  <div class="section-label">02 — Typography (Inter)</div>
+  
+  <div class="type-row">
+    <div class="type-meta"><span>800</span><span>clamp(36–88px)</span><span>line-height: 1.08</span></div>
+    <div style="font-size: 64px; font-weight: 800; line-height: 1.08; color: rgba(255,255,255,0.85);">We Lead Solana</div>
+    <div style="font-size: 64px; font-weight: 800; line-height: 1.08;"><span style="color: rgba(255,255,255,0.35);">Growth </span><span style="color: #14F195; font-style: italic;">in Malaysia</span><span style="display: inline-block; width: 3px; height: 56px; background: #14F195; margin-left: 4px; vertical-align: middle; animation: blink 1s infinite;"></span></div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta"><span>800</span><span>clamp(28–56px)</span><span>line-height: 1.15</span></div>
+    <div style="font-size: 48px; font-weight: 800; line-height: 1.15;"><span style="color: rgba(255,255,255,0.35);">Our </span><span style="color: #14F195; font-style: italic;">Events</span></div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta"><span>400</span><span>15–16px</span><span>line-height: 1.65</span></div>
+    <div style="font-size: 16px; font-weight: 400; line-height: 1.65; color: rgba(255,255,255,0.45); max-width: 560px;">The home for Solana builders, creators, and innovators in Malaysia. Join the movement shaping Web3 in Southeast Asia.</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta"><span>700</span><span>11–13px</span><span>letter-spacing: 0.15em</span><span>UPPERCASE</span></div>
+    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Solana Ecosystem · Malaysia</div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta"><span>700</span><span>17–20px</span><span>Card Title</span></div>
+    <div style="font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.85);">Solana Network State [Spring 2026]</div>
+  </div>
+
+  <div class="type-row" style="border: none;">
+    <div class="type-meta"><span>400</span><span>13–14px</span><span>line-height: 1.6</span><span>Card Body</span></div>
+    <div style="font-size: 14px; font-weight: 400; line-height: 1.6; color: rgba(255,255,255,0.45);">5-week Build Station at Network School × Colosseum Hackathon. Ship startups on Solana with mentor office hours.</div>
+  </div>
+</div>
+
+<!-- ====== 3. SPACING ====== -->
+<div class="section">
+  <div class="section-label">03 — Spacing & Layout</div>
+  
+  <div class="spacing-row">
+    <div class="spacing-label">Section vertical padding</div>
+    <div class="spacing-box" style="width: 100px; height: 40px;"><span class="spacing-value">100px</span></div>
+  </div>
+  <div class="spacing-row">
+    <div class="spacing-label">Section horizontal padding</div>
+    <div class="spacing-box" style="width: 24px; height: 40px;"><span class="spacing-value" style="font-size:10px">24</span></div>
+  </div>
+  <div class="spacing-row">
+    <div class="spacing-label">Max content width</div>
+    <div class="spacing-box" style="width: 200px; height: 40px;"><span class="spacing-value">1200px</span></div>
+  </div>
+  <div class="spacing-row">
+    <div class="spacing-label">Card border-radius</div>
+    <div class="spacing-box" style="width: 60px; height: 60px; border-radius: 20px;"><span class="spacing-value">20px</span></div>
+  </div>
+  <div class="spacing-row">
+    <div class="spacing-label">Button border-radius (pill)</div>
+    <div class="spacing-box" style="width: 120px; height: 48px; border-radius: 50px;"><span class="spacing-value">50px</span></div>
+  </div>
+  <div class="spacing-row">
+    <div class="spacing-label">Card gap</div>
+    <div style="display:flex;gap:20px;">
+      <div class="spacing-box" style="width:80px;height:40px;"></div>
+      <div class="spacing-box" style="width:80px;height:40px;"></div>
+    </div>
+    <span class="spacing-value">20px</span>
+  </div>
+</div>
+
+<!-- ====== 4. COMPONENTS ====== -->
+<div class="section">
+  <div class="section-label">04 — Components</div>
+
+  <!-- Row 1: Buttons + Badges -->
+  <div style="display: flex; gap: 40px; margin-bottom: 40px; align-items: flex-start;">
+    <div>
+      <p class="comp-label">CTA Button (Green Gradient + Bounce)</p>
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
+        <span class="btn-primary" style="animation: ctaBounce 2.5s ease-in-out infinite;">Join Community</span>
+        <span style="font-size: 11px; color: rgba(255,255,255,0.25);">← Default (bouncing)</span>
+      </div>
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 24px;">
+        <span class="btn-primary" style="transform: translateY(-3px) scale(1.04); box-shadow: 0 0 36px rgba(20,241,149,0.5);">Join Community</span>
+        <span style="font-size: 11px; color: rgba(255,255,255,0.25);">← Hover (scale 1.04, shadow expands)</span>
+      </div>
+      <p class="comp-label">Outline Button</p>
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+        <span class="btn-outline">Explore Opportunities</span>
+        <span style="font-size: 11px; color: rgba(255,255,255,0.25);">← Default</span>
+      </div>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <span class="btn-outline" style="border-color: rgba(20,241,149,0.6); background: rgba(255,255,255,0.04);">Explore Opportunities</span>
+        <span style="font-size: 11px; color: rgba(255,255,255,0.25);">← Hover</span>
+      </div>
+    </div>
+    <div>
+      <p class="comp-label">Member Badges</p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span class="badge badge-green">CORE CONTRIBUTOR</span>
+        <span class="badge badge-purple">SOLANA BUILDER</span>
+        <span class="badge badge-yellow">HACKATHON WINNER</span>
+      </div>
+      <p class="comp-label" style="margin-top: 24px;">Event Type Badges</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span style="background: rgba(20,241,149,0.12); color: #14F195; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">🏆 Hackathon</span>
+        <span style="background: rgba(153,69,255,0.12); color: #9945FF; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">🎤 Community Call</span>
+        <span style="background: rgba(236,72,153,0.12); color: #EC4899; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">🎉 Party</span>
+      </div>
+      <p class="comp-label" style="margin-top: 24px;">Skill Tag Pills</p>
+      <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+        <span style="border: 1px solid rgba(20,241,149,0.25); padding: 4px 12px; border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.6);">Rust</span>
+        <span style="border: 1px solid rgba(153,69,255,0.25); padding: 4px 12px; border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.6);">Frontend</span>
+        <span style="border: 1px solid rgba(3,225,255,0.25); padding: 4px 12px; border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.6);">Design</span>
+        <span style="border: 1px solid rgba(234,179,8,0.25); padding: 4px 12px; border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.6);">Community</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Card States -->
+  <p class="comp-label">Card States (Default → Hover)</p>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">DEFAULT</p>
+      <div class="card-default" style="height: 180px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 13px; color: rgba(255,255,255,0.25);">Card Content</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">HOVER (lift + green border)</p>
+      <div class="card-hover" style="height: 180px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 13px; color: rgba(255,255,255,0.25);">Card Content</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">GLASS (tweet cards, nav)</p>
+      <div class="card-glass" style="height: 180px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 13px; color: rgba(255,255,255,0.25);">Glass + blur(12px)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: NavBar States -->
+  <p class="comp-label">NavBar States</p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px;">
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">TRANSPARENT (initial)</p>
+      <div style="height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; background: #1a1a2e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">st</div>
+          <span style="font-weight: 800; font-size: 14px;">SUPERTEAM <span style="color: #14F195;">MY</span></span>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 6px 18px; border-radius: 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.6);">MENU</div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">SCROLLED (glass blur)</p>
+      <div style="height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-radius: 12px; background: rgba(8,8,14,0.92); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; background: #1a1a2e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;">st</div>
+          <span style="font-weight: 800; font-size: 14px;">SUPERTEAM <span style="color: #14F195;">MY</span></span>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 6px 18px; border-radius: 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.6);">MENU</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4: FAQ Accordion -->
+  <p class="comp-label">FAQ Accordion States</p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px;">
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">CLOSED</p>
+      <div class="card-default" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 24px;">
+        <span style="font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85);">What is Superteam Malaysia?</span>
+        <span style="color: #14F195; font-size: 24px; font-weight: 300;">+</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">OPEN (+ rotates to ×)</p>
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(20,241,149,0.2); border-radius: 20px; padding: 20px 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <span style="font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85);">What is Superteam Malaysia?</span>
+          <span style="color: #14F195; font-size: 20px; font-weight: 300;">×</span>
+        </div>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6;">Superteam Malaysia is the local chapter of the global Superteam network, dedicated to empowering builders, creators, founders, and talent in the Solana ecosystem.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 5: Stat Cards with color variants -->
+  <p class="comp-label">Stat Counter Cards (5 Color Variants)</p>
+  <div style="display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;">
+    <div class="card-default" style="width: 200px; padding: 24px;">
+      <div style="font-size: 32px; font-weight: 800; color: #9945FF;">3,400+</div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;">Members</div>
+    </div>
+    <div class="card-default" style="width: 200px; padding: 24px;">
+      <div style="font-size: 32px; font-weight: 800; color: #14F195;">30+</div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;">Events</div>
+    </div>
+    <div class="card-default" style="width: 200px; padding: 24px;">
+      <div style="font-size: 32px; font-weight: 800; color: #EC4899;">50+</div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;">Projects</div>
+    </div>
+    <div class="card-default" style="width: 200px; padding: 24px;">
+      <div style="font-size: 32px; font-weight: 800; color: #EAB308;">100+</div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;">Bounties</div>
+    </div>
+    <div class="card-default" style="width: 200px; padding: 24px;">
+      <div style="font-size: 32px; font-weight: 800; color: #F97316;">10,000+</div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;">Reach</div>
+    </div>
+  </div>
+
+  <!-- Row 6: Perk Card Accent Colors -->
+  <p class="comp-label">Perk Card Variants (4 Accent Colors)</p>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px;">
+    <div class="card-default" style="padding: 20px;"><div style="font-size: 16px; font-weight: 700; color: #14F195; margin-bottom: 8px;">For Builders</div><div style="display:flex;gap:6px;"><span style="border:1px solid rgba(20,241,149,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Grants</span><span style="border:1px solid rgba(20,241,149,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Mentors</span></div></div>
+    <div class="card-default" style="padding: 20px;"><div style="font-size: 16px; font-weight: 700; color: #9945FF; margin-bottom: 8px;">For Creators</div><div style="display:flex;gap:6px;"><span style="border:1px solid rgba(153,69,255,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Content</span><span style="border:1px solid rgba(153,69,255,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Bounties</span></div></div>
+    <div class="card-default" style="padding: 20px;"><div style="font-size: 16px; font-weight: 700; color: #03E1FF; margin-bottom: 8px;">For Founders</div><div style="display:flex;gap:6px;"><span style="border:1px solid rgba(3,225,255,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Funding</span><span style="border:1px solid rgba(3,225,255,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Network</span></div></div>
+    <div class="card-default" style="padding: 20px;"><div style="font-size: 16px; font-weight: 700; color: #EAB308; margin-bottom: 8px;">For Everyone</div><div style="display:flex;gap:6px;"><span style="border:1px solid rgba(234,179,8,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Events</span><span style="border:1px solid rgba(234,179,8,0.25);padding:3px 10px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.5)">Community</span></div></div>
+  </div>
+</div>
+
+<!-- ====== 5. ANIMATIONS ====== -->
+<div class="section">
+  <div class="section-label">05 — Animations & Interactions</div>
+  
+  <div class="anim-grid">
+    <div class="anim-card">
+      <div style="font-size: 32px; font-weight: 800; color: #14F195; font-style: italic;">in Malaysia<span style="display: inline-block; width: 3px; height: 24px; background: #14F195; margin-left: 3px; vertical-align: middle; animation: blink 1s infinite;"></span></div>
+      <div class="label">Typing Cursor</div>
+      <div class="detail">Character-by-character + blink</div>
+    </div>
+    <div class="anim-card">
+      <div style="animation: ctaBounce 2.5s ease-in-out infinite;">
+        <span class="btn-primary" style="font-size: 13px; padding: 10px 20px;">Bounce CTA</span>
+      </div>
+      <div class="label">CTA Bounce</div>
+      <div class="detail">2.5s loop, stops on hover</div>
+    </div>
+    <div class="anim-card">
+      <div style="display: flex; gap: 4px; overflow: hidden; width: 140px; margin: 0 auto;">
+        <div style="display: flex; gap: 4px; animation: marqueeLeft 3s linear infinite;">
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+          <div style="width: 40px; height: 28px; background: rgba(255,255,255,0.06); border-radius: 4px; flex-shrink: 0;"></div>
+        </div>
+      </div>
+      <div class="label">Marquee Scroll</div>
+      <div class="detail">Row 1→left, Row 2→right, pause hover</div>
+    </div>
+    <div class="anim-card">
+      <div style="display: flex; gap: 8px; justify-content: center;">
+        <div class="card-default" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 10px; padding: 0;">↑</div>
+        <div class="card-hover" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 10px; padding: 0;">↑4px</div>
+      </div>
+      <div class="label">Card Lift</div>
+      <div class="detail">translateY(-4px) + border glow</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px; padding: 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;">
+    <p class="comp-label" style="margin-bottom: 12px;">All Animation Specs</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; font-size: 12px;">
+      <div style="color: rgba(255,255,255,0.45);">Stat counters → count up on scroll</div>
+      <div style="color: rgba(255,255,255,0.45);">Partner logos → scale(1.15) on hover</div>
+      <div style="color: rgba(255,255,255,0.45);">Tweet cards → scale(1.02) + glow</div>
+      <div style="color: rgba(255,255,255,0.45);">FAQ accordion → smooth 300ms expand</div>
+      <div style="color: rgba(255,255,255,0.45);">Nav → transparent to glass on scroll</div>
+      <div style="color: rgba(255,255,255,0.45);">Menu → full-screen overlay fade-in</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 6. STEP NUMBERS ====== -->
+<div class="section">
+  <div class="section-label">06 — Decorative Elements</div>
+  <div style="display: flex; gap: 40px; align-items: center;">
+    <div style="text-align: center;">
+      <div style="font-size: 64px; font-weight: 800; color: #14F195; opacity: 0.2;">01</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.3);">Step Green</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 64px; font-weight: 800; color: #9945FF; opacity: 0.2;">02</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.3);">Step Purple</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 64px; font-weight: 800; color: #03E1FF; opacity: 0.2;">03</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.3);">Step Cyan</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 64px; font-weight: 800; color: #EAB308; opacity: 0.2;">04</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.3);">Step Yellow</div>
+    </div>
+    <div style="margin-left: 40px;">
+      <div style="font-size: 11px; color: rgba(255,255,255,0.25); margin-bottom: 8px;">FOOTER GIANT TEXT</div>
+      <div style="font-size: 48px; font-weight: 800; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.04);">SUPERTEAM</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
